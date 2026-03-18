@@ -6,24 +6,26 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // import Login from './pages/Login.tsx'
 import routes from './routes/routes.tsx'
+import { UserAuthContextProvider } from './context/authenticationContext.tsx'
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} /> */}
-        
-        {
-          routes.map((route) => (
-            <Route  key={route.path} 
-                    path={route.path}
-                    element={route.element} />
-          ))
-        }
+      <UserAuthContextProvider>
+        <Routes>
+          {/* <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} /> */}
+          {
+            routes.map((route) => (
+              <Route  key={route.path} 
+                      path={route.path}
+                      element={route.element} />
+            ))
+          }
 
-      </Routes>
+        </Routes>
+      </UserAuthContextProvider>
     </BrowserRouter>
   )
 }

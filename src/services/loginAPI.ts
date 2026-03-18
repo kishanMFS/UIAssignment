@@ -1,9 +1,9 @@
-export interface loginCredentials {
-    email: string;
-    password: string;
+type credentialsType = {
+    email: string,
+    password: string,
 }
 
-async function loginUser (credentials: loginCredentials) {
+async function loginUser (credentials: credentialsType) {
     const response = await fetch('https://api.escuelajs.co/api/v1/auth/login', {
         method: 'POST',
         headers: {

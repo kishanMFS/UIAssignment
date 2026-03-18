@@ -2,6 +2,7 @@
 import { Navigate } from 'react-router-dom'
 
 import Login from '../pages/Login.tsx'
+import Projects from '../pages/Projects.tsx'
 
 const routes = [
     {
@@ -11,6 +12,10 @@ const routes = [
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/projects',
+        element: <Projects />
     }
 ];
 
