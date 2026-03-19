@@ -7,6 +7,8 @@ import ProjectDetails from '../pages/ProjectDetails.tsx'
 import ProjectFiles from '../pages/ProjectFiles.tsx'
 import MissingComponent from '../pages/MissingComponent.tsx'
 
+import Layout from '../components/Layout.tsx'
+
 const routes = [
     {
         path: '/',
@@ -17,16 +19,22 @@ const routes = [
         element: <Login />
     },
     {
-        path: '/projects',
-        element: <Projects />
-    },
-    {
-        path: '/projects/:projectId',
-        element: <ProjectDetails />
-    },
-    {
-        path: '/projects/:projectId/files',
-        element: <ProjectFiles />
+        path: "/",
+        element: <Layout />,
+        Children: [
+            {
+                path: '/projects',
+                element: <Projects />
+            },
+            {
+                path: '/projects/:projectId',
+                element: <ProjectDetails />
+            },
+            {
+                path: '/projects/:projectId/files',
+                element: <ProjectFiles />
+            }
+        ]
     },
     {
         path: '*',

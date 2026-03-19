@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
+import Modal from '../components/Modal/Modal';
+import InputText from '../components/InputText';
+
+import projectReducer from '../reducers/projectReducers';
 
 function handleDeleteProject() {
     alert('Delete Project');
@@ -17,32 +20,86 @@ function Projects() {
         createdDate: new Date().toISOString().split('T')[0]
     });
     const [ modalOpen, setModalOpen ] = useState(false);
-    const [ isNewProject, setIsNewProject ] = useState(false);
+    // const [ projects, dispatch ] = useReducer(projectReducer, [])
     
     useEffect(() => {
         setProjects(JSON.parse(localStorage.getItem('projects') || '[]'));
     }, []);
-    
-    function handleCreateProject() {
-        setIsNewProject(true);
-        setModalOpen(true);
-        
-    }
 
     function handleOpenProject(projectId: number) {
         navigate(`/projects/${projectId}`);
     }
+
+    const handleInputChange = (field: string, value: string) => {
+        setNewProject({
+            ...newProject,
+            [field]: value
+        });
+    }
+    
+    const handleOpenCreateProject = () => {
+        setModalOpen(true);
+    }
+    const handleCreateProject = () => {
+        const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+        const newProjectVlaues = {
+            ...newProject,
+            id: Date.now().toString() // since id is not defined in projectDetails, we can generate a unique id using timestamp
+        };
+        existingProjects.push(newProjectVlaues);
+        setProjects(existingProjects);
+        localStorage.setItem('projects', JSON.stringify(existingProjects));
+        setModalOpen(false);
+        setNewProject({
+            projectName:'',
+            description: '',
+            filesCount: 0,
+            jobsCount: 0,
+            createdDate: new Date().toISOString().split('T')[0]
+        })
+    };
+
+    function handleOnClose() {
+        setModalOpen(false);
+    }
+
     
     return (
         <div>
-            <Modal projectDetails={newProject} setProjectDetails={setNewProject} setProjects={setProjects} isNewProject={isNewProject} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+            <Modal title="Create New Project" modalOpen={modalOpen} setModalOpen={setModalOpen} footer={
+                <>
+                    <button className="btn" onClick={handleCreateProject}>
+                        Create
+                    </button>
+                    <button className="btn" onClick={handleOnClose}>
+                        Close
+                    </button>
+                </>
+            }>
+                <div>
+                    <div className="input-group">
+                        <label htmlFor="projectName">Project Name:</label>
+                        <InputText inputName="projectName" 
+                                inputValue={newProject.projectName} 
+                                onInputChange={handleInputChange} 
+                                errorMessage=''/>
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="description">Description:</label>
+                        <InputText inputName="description" 
+                                inputValue={newProject.description}
+                                onInputChange={handleInputChange}
+                                errorMessage=''/>
+                    </div>
+                </div>
+            </Modal>
 
             <h1>Projects Page</h1>
             <p>Welcome to the projects page!</p>
 
             <div className="projects-container">
                 <div className="container-header-btn">
-                    <button className="btn" onClick={handleCreateProject}>Create Project</button>
+                    <button className="btn" onClick={handleOpenCreateProject}>Create Project</button>
                 </div>
                 
                 <table className="projects-table">

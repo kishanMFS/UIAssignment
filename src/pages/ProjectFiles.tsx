@@ -60,6 +60,7 @@ function ProjectFiles() {
             })
         }
 
+        foundProject.filesCount = newFiles.length
         const existingFiles = foundProject.projectFiles || [];
         const updatedProject = {
             ...foundProject,
