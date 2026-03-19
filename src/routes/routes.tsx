@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 import Login from '../pages/Login.tsx'
 import Projects from '../pages/Projects.tsx'
+import ProjectDetails from '../pages/ProjectDetails.tsx'
 
 const routes = [
     {
@@ -16,6 +17,10 @@ const routes = [
     {
         path: '/projects',
         element: <Projects />
+    },
+    {
+        path: '/projects/:projectId',
+        element: <ProjectDetails />
     }
 ];
 
