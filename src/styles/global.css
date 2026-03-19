@@ -145,3 +145,18 @@
     margin-bottom: 15px;
     
 }
+
+.project-details-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.project-details-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}

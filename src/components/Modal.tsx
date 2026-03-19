@@ -1,6 +1,6 @@
 
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import InputText from './InputText';
 
 type ModalType = { 
@@ -10,19 +10,39 @@ type ModalType = {
         filesCount: number;
         jobsCount: number;
         createdDate: string;
-    }, 
+    },
+    setProjectDetails: (details: ModalType['projectDetails']) => void,
+    setProjects: (projects: []) => void,
     isNewProject: boolean,
     modalOpen: boolean,
-    onClose: (open: boolean) => void,
+    setModalOpen: (open: boolean) => void,
 }
 
-function Modal( { projectDetails, isNewProject, modalOpen, onClose }: ModalType ) {
-    const [isDeleteAvailable, setIsDeleteAvailable] = useState<boolean>(false);
+function Modal( { projectDetails, setProjectDetails, setProjects, isNewProject, modalOpen, setModalOpen }: ModalType ) {
     
     function handleOnClose() {
-        // alert('Close Modal');
-        onClose(false);
+        setModalOpen(false);
     }
+
+    const handleInputChange = (field: string, value: string) => {
+        setProjectDetails({
+            ...projectDetails,
+            [field]: value
+        });
+    }
+
+    const handleCreateProject = () => {
+        const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+        const newProject = {
+            ...projectDetails,
+            id: Date.now().toString() // since id is not defined in projectDetails, we can generate a unique id using timestamp
+        };
+        existingProjects.push(newProject);
+        setProjects(existingProjects);
+        localStorage.setItem('projects', JSON.stringify(existingProjects));
+        setModalOpen(false);
+    };
+
 
     return (
         <div>
@@ -52,11 +72,17 @@ function Modal( { projectDetails, isNewProject, modalOpen, onClose }: ModalType 
                                             <div>
                                                 <div className="input-group">
                                                     <label htmlFor="projectName">Project Name:</label>
-                                                    <InputText value={projectDetails.projectName} onInputChange={(value) => {}} />
+                                                    <InputText inputName="projectName" 
+                                                            inputValue={projectDetails.projectName} 
+                                                            onInputChange={handleInputChange} 
+                                                            errorMessage=''/>
                                                 </div>
                                                 <div className="input-group">
                                                     <label htmlFor="description">Description:</label>
-                                                    <InputText value={projectDetails.description} onInputChange={(value) => {}} />
+                                                    <InputText inputName="description" 
+                                                            inputValue={projectDetails.description} 
+                                                            onInputChange={handleInputChange} 
+                                                            errorMessage=''/>
                                                 </div>
                                             </div>
                                         ) : 
@@ -75,7 +101,9 @@ function Modal( { projectDetails, isNewProject, modalOpen, onClose }: ModalType 
                                     
                                 </div>
                                 <div className="modal-footer">
-                                    {isDeleteAvailable && <button className="btn">Update</button>}
+                                    {isNewProject && <button className="btn" onClick={handleCreateProject}>
+                                        Create
+                                    </button>}
                                     <button className="btn" onClick={handleOnClose}>
                                         Close
                                     </button>

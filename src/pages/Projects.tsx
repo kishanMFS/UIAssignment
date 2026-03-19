@@ -29,16 +29,7 @@ function Projects() {
     function handleCreateProject() {
         setIsNewProject(true);
         setModalOpen(true);
-        const projects = JSON.parse(localStorage.getItem('projects') || '[]');
-        const newProject = {
-            projectName: 'New Project',
-            description: 'Project description',
-            filesCount: 0,
-            jobsCount: 0,
-            createdDate: new Date().toISOString().split('T')[0]
-        };
-        projects.push(newProject);
-        localStorage.setItem('projects', JSON.stringify(projects));
+        
     }
 
     function handleOpenProject(projectId: number) {
@@ -47,7 +38,7 @@ function Projects() {
     
     return (
         <div>
-            <Modal projectDetails={newProject} isNewProject={isNewProject} modalOpen={modalOpen} onClose={setModalOpen} />
+            <Modal projectDetails={newProject} setProjectDetails={setNewProject} setProjects={setProjects} isNewProject={isNewProject} modalOpen={modalOpen} setModalOpen={setModalOpen} />
 
             <h1>Projects Page</h1>
             <p>Welcome to the projects page!</p>
@@ -70,7 +61,7 @@ function Projects() {
                     </thead>
                     <tbody>
                         {
-                            projects.map((project: any, index: number) => (
+                            projects.map((project: object, index: number) => (
                                 <tr key={index} className="table-row">
                                     <td className="table-data">{project.projectName}</td>
                                     <td className="table-data">{project.description}</td>
@@ -79,7 +70,7 @@ function Projects() {
                                     <td className="table-data">{project.createdDate}</td>
                                     <td className="table-data">
                                         <div className="actions-container">
-                                            <button onClick={() => handleOpenProject(index)} className="btn">Open</button>
+                                            <button onClick={() => handleOpenProject(project.id)} className="btn">Open</button>
                                             <button onClick={() => handleDeleteProject()} className="btn">Delete</button>
                                         </div>
                                     </td>

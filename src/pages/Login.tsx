@@ -8,8 +8,7 @@ import { UserAuth } from '../context/authenticationContext.tsx';
 
 
 function Login() {
-    const [ email, setEmail ] = useState<string>('john@mail.com')
-    const [ password, setPassword ] = useState<string>('changeme')
+    const [ formField, setFormField ] = useState<object>({email: 'john@mail.com', password: 'changeme'});
     const { login } = UserAuth();
     const [ errors, setErrors ] = useState<object>({email: '', password: ''});
     const [ loginApiError, setloginApiError ] = useState<string>('');
@@ -19,17 +18,17 @@ function Login() {
         let hasError = false;
         const errorMessages: { email: string; password: string } = { email: '', password: '' };
 
-        if (!email.length){
+        if (!formField.email.length){
             errorMessages.email = 'Email is required.';
             hasError = true;
         }
-        if (!password.length) {
+        if (!formField.password.length) {
             errorMessages.password = 'Password is required.';
             hasError = true;
         }
         // Simple email format validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email.length && !emailRegex.test(email)) {
+        if (formField.email.length && !emailRegex.test(formField.email)) {
             errorMessages.email = 'Please enter a valid email address.';
             hasError = true;
         }
@@ -48,7 +47,7 @@ function Login() {
             return;
         }
         try {
-            const credentials = { email, password };
+            const credentials = { email: formField.email, password: formField.password };
             const response = await loginUser(credentials);
             const jwttoken = response.access_token;
             if(jwttoken){
@@ -67,6 +66,12 @@ function Login() {
         }
     }
 
+    const handleInputChange = (field: string, value: string) => {
+        setFormField((prev) => ({
+            ...prev,
+            [field]: value
+        }));
+    }
 
     return (
         <div>
@@ -79,14 +84,20 @@ function Login() {
                     <div className='input-field'>
                         <label>
                             Email:
-                            <InputText inputValue={email} onInputChange={setEmail} errorMessage={errors.email} />
+                            <InputText inputName="email" 
+                                    inputValue={formField.email} 
+                                    onInputChange={handleInputChange} 
+                                    errorMessage={errors.email} />
                         </label>
                     </div>
 
                     <div className='input-field'>
                         <label> 
                             Password:
-                            <InputText inputValue={password} onInputChange={setPassword} errorMessage={errors.password} />
+                            <InputText inputName="password" 
+                                    inputValue={formField.password} 
+                                    onInputChange={handleInputChange} 
+                                    errorMessage={errors.password} />
                         </label>
                     </div>
                     <button type="submit">Login</button>
