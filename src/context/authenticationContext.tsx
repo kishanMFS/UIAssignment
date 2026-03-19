@@ -32,7 +32,7 @@ export const UserAuthContextProvider = ({children}: childrenType) => {
         const token = localStorage.getItem('jwtToken');
         if (token) {
             setIsLoggedIn(true);
-            navigate('/projects');
+            // navigate('/projects');
         } else {
             // setIsLoggedIn(false);
             logout();

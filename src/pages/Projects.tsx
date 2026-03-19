@@ -2,9 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 
-
-
-
 function handleDeleteProject() {
     alert('Delete Project');
 }
