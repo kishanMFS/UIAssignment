@@ -8,6 +8,7 @@ import ProjectFiles from '../pages/ProjectFiles.tsx'
 import MissingComponent from '../pages/MissingComponent.tsx'
 
 import Layout from '../components/Layout.tsx'
+import ProtectedRoute from '../components/ProtectedRoute.tsx'
 
 const routes = [
     {
@@ -20,8 +21,16 @@ const routes = [
     },
     {
         path: "/",
-        element: <Layout />,
-        Children: [
+        element: (
+            <ProtectedRoute>
+                <Layout />
+            </ProtectedRoute>
+        ),
+        children: [
+            {
+                path: '/',
+                element: <Navigate to='/project' replace />
+            },
             {
                 path: '/projects',
                 element: <Projects />

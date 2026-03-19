@@ -9,6 +9,14 @@ import routes from './routes/routes.tsx'
 import { UserAuthContextProvider } from './context/authenticationContext.tsx'
 
 
+const renderRoutes = (routes: []) => {
+  return routes.map((route) => (
+    <Route  key={route.path} path={route.path} element={route.element}>
+      {route.children && renderRoutes(route.children)}
+    </Route>
+  ))
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -16,13 +24,7 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} /> */}
-          {
-            routes.map((route) => (
-              <Route  key={route.path} 
-                      path={route.path}
-                      element={route.element} />
-            ))
-          }
+          {renderRoutes(routes)}
 
         </Routes>
       </UserAuthContextProvider>

@@ -292,3 +292,18 @@ input[type="file"] {
     border-radius: 5px;
     padding: 0px 5px;
 }
+
+.nav-bar {
+    background-color: aqua;
+    padding: 5px;
+    margin: 5px;
+}
+
+.nav-item {
+    text-decoration: none;
+    background-color: antiquewhite;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    padding: 5px;
+    
+}

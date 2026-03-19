@@ -1,11 +1,11 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputText from '../components/InputText.tsx'
 import loginUser from '../services/loginAPI.ts'
 import Spinner from '../components/Spinner.tsx';
 
 import { UserAuth } from '../context/authenticationContext.tsx';
-
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
     const [ formField, setFormField ] = useState<object>({email: 'john@mail.com', password: 'changeme'});
@@ -13,6 +13,7 @@ function Login() {
     const [ errors, setErrors ] = useState<object>({email: '', password: ''});
     const [ loginApiError, setloginApiError ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const navigate = useNavigate()
 
     const validateForm = (): boolean => {
         let hasError = false;
@@ -72,7 +73,14 @@ function Login() {
             [field]: value
         }));
     }
+    useEffect(()=> {
 
+        const token = localStorage.getItem("jwtToken")
+        if(token){
+            navigate('/projects')
+
+        }
+    })
     return (
         <div>
             {isLoading && <Spinner />}

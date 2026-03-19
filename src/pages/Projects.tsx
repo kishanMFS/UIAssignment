@@ -5,10 +5,6 @@ import InputText from '../components/InputText';
 
 import projectReducer from '../reducers/projectReducers';
 
-function handleDeleteProject() {
-    alert('Delete Project');
-}
-
 function Projects() {
     const navigate = useNavigate();
     const [ projects, setProjects ] = useState<[]>([]);
@@ -40,6 +36,12 @@ function Projects() {
     const handleOpenCreateProject = () => {
         setModalOpen(true);
     }
+    function handleDeleteProject(projectId:number) {
+        const updatedProjects = projects.filter((project)=> project.id !== projectId)
+        setProjects(updatedProjects)
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    }
+
     const handleCreateProject = () => {
         const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]');
         const newProjectVlaues = {
@@ -125,7 +127,7 @@ function Projects() {
                                     <td className="table-data">
                                         <div className="actions-container">
                                             <button onClick={() => handleOpenProject(project.id)} className="btn">Open</button>
-                                            <button onClick={() => handleDeleteProject()} className="btn">Delete</button>
+                                            <button onClick={() => handleDeleteProject(project.id)} className="btn">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
