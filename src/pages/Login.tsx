@@ -18,6 +18,7 @@ function Login() {
     const [ errors, setErrors ] = useState<formFiledType>({email: '', password: ''});
     const [ loginApiError, setloginApiError ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ progress, setProgress ] = useState(0)
     const navigate = useNavigate()
 
     const validateForm = (): boolean => {
@@ -50,23 +51,29 @@ function Login() {
         
         if (validateForm()) {
             setIsLoading(false);
+            setProgress(0)
             return;
+        }
+        function onProgress(value:number) {
+            setProgress(value)
         }
         try {
             const credentials = { email: formField.email, password: formField.password };
-            const response = await loginUser(credentials);
+            const response = await loginUser({credentials, onProgress});
             const jwttoken = response.access_token;
             if(jwttoken){
                 login(jwttoken);
             }
             
             setIsLoading(false);
+            setProgress(0)
             if(response.statusCode === 401){
                 setloginApiError(response.message);
             }
         } catch (error: any) {
             console.error('Login failed:', error);
             setIsLoading(false);
+            setProgress(0)
             setloginApiError('An error occurred during login. Please try again later.');
         }
     }
@@ -87,7 +94,14 @@ function Login() {
         <div>
             {isLoading && <Spinner />}
             {loginApiError && <p className='error-message'>{loginApiError}</p>}
-            
+            {
+                isLoading
+                && 
+                (<div className='progress-bar-container'>
+                    <div className='progress-bar' style={{ width: `${progress}%` }}>
+                    </div>
+                </div>)
+            }
             <div className="login-container">
                 <h1>Login Page</h1>
                 <form method="post" action="" onSubmit={handleLoginUser}>

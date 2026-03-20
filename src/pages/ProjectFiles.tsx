@@ -137,7 +137,7 @@ function ProjectFiles() {
                         </label>
                     </div>
                     <div>
-                        <button type="button" disabled={btnDisabled} onClick={handleFileUpload}>Upload</button>
+                        <button className='btn' type="button" disabled={btnDisabled} onClick={handleFileUpload}>Upload</button>
                     </div>
                 </div>
                 <div className="files-container">

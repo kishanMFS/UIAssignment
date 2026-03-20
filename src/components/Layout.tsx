@@ -1,12 +1,14 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom"
 
-
+import { UserAuth } from '../context/authenticationContext.tsx';
 
 function NavBar () {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const { logout } = UserAuth();
+
     const handleLogout = () => {
-        localStorage.removeItem('jwtToken')
-        navigate('/logout')
+        logout()
+        // navigate('/login')
     }
     return (
         <>
