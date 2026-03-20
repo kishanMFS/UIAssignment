@@ -7,10 +7,15 @@ import Spinner from '../components/Spinner.tsx';
 import { UserAuth } from '../context/authenticationContext.tsx';
 import { useNavigate } from 'react-router-dom'
 
+interface formFiledType {
+    email: string,
+    password: string
+}
+
 function Login() {
-    const [ formField, setFormField ] = useState<object>({email: 'john@mail.com', password: 'changeme'});
+    const [ formField, setFormField ] = useState<formFiledType>({email: 'john@mail.com', password: 'changeme'});
     const { login, isLoggedIn } = UserAuth();
-    const [ errors, setErrors ] = useState<object>({email: '', password: ''});
+    const [ errors, setErrors ] = useState<formFiledType>({email: '', password: ''});
     const [ loginApiError, setloginApiError ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const navigate = useNavigate()
@@ -59,9 +64,8 @@ function Login() {
             if(response.statusCode === 401){
                 setloginApiError(response.message);
             }
-            console.log(response);
         } catch (error: any) {
-            console.error('Login failed:', error);            
+            console.error('Login failed:', error);
             setIsLoading(false);
             setloginApiError('An error occurred during login. Please try again later.');
         }

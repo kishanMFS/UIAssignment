@@ -205,7 +205,7 @@
     /* max-width: 900px; */
     display: flex;
     font-size: small;
-    /* max-width: 900px; */
+    min-width: 400px;
     /* min-width: 800px; */
     padding: 4px;
     position: relative;

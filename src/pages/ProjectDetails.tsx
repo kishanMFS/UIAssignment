@@ -3,16 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useReducer } from 'react';
 
 import type { projectType } from '../reducers/projectReducers';
-import { projectReducer, initialProject } from '../reducers/projectReducers';
+import { projectReducer, getProjects } from '../reducers/projectReducers';
 
 function ProjectDeatails() {
-    const { projectId } = useParams();
+    const { projectId } = useParams<string>();
     const navigate = useNavigate();
-    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], initialProject)
-    const [ project, setProject ] = useState<projectType>() 
+    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], getProjects)
+    const [ project, setProject ] = useState<projectType>()
 
     useEffect(() => {
-        dispatchProjectReducer({ type:"GET_PROJECT", payload: projectId })
+        dispatchProjectReducer({ type:"GET_PROJECT" })
         const foundProject = projects.find((p: projectType) => p.id === projectId);
         setProject(foundProject);        
     }, [projectId]);
@@ -49,7 +49,7 @@ function ProjectDeatails() {
                             <span>{project.createdDate}</span>
                         </div>
                         <div className='project-details-row'>
-                            <input type="button" value="Upload Files" onClick={handleSubmitFiles} />
+                            <input type="button" className='btn' value="Upload Files" onClick={handleSubmitFiles} />
                         </div>
                     </div>
                 </div>

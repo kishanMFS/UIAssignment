@@ -4,7 +4,7 @@ import Modal from '../components/Modal/Modal';
 import InputText from '../components/InputText';
 
 import type { projectType } from '../reducers/projectReducers';
-import { projectReducer, initialProject } from '../reducers/projectReducers';
+import { projectReducer, getProjects } from '../reducers/projectReducers';
 
 function Projects() {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Projects() {
         createdDate: new Date().toISOString().split('T')[0]
     });
     const [ modalOpen, setModalOpen ] = useState(false);
-    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], initialProject)
+    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], getProjects)
     
     useEffect(() => {
         localStorage.setItem('projects', JSON.stringify(projects));
@@ -46,7 +46,6 @@ function Projects() {
             id: Date.now().toString() // since id is not defined in projectDetails, we can generate a unique id using timestamp
         };
         dispatchProjectReducer({ type: 'ADD_PROJECT', payload: newProjectVlaues })
-        localStorage.setItem('projects', JSON.stringify(projects));
         setModalOpen(false);
         setNewProject({
             projectName:'',

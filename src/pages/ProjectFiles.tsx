@@ -1,15 +1,10 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 
-interface projectType {
-    id: string;
-    projectName: string;
-    description: string;
-    files: any[];
-    jobs: any[];
-    createdDate: string;
-}
+import type { projectType } from '../reducers/projectReducers';
+import { projectReducer, getProjects } from '../reducers/projectReducers';
+
 interface fileType {
     name: string;
     size: number;
@@ -20,34 +15,37 @@ interface fileType {
 
 function ProjectFiles() {
     const [files, setFiles ] = useState<File[]>([]);
-    const [ progressBar, setProgressBar ] = useState<number>(0);
-    const [ projects, setProjects ] = useState<projectType[]>([]);
-    const { projectId } = useParams<{ id: string }>()
+    
+    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], getProjects)
+
+    const { projectId } = useParams<string>()
     const [ hasFiles, setHasFiles ] = useState(false);
     const [ message, setMessage ] = useState('');
     const [ btnDisabled, setBtnDisabled ] = useState(true);
-    const [ currentProjectFiles, setCurrentProjectFiles ] = useState<any[]>([]);
+    const [ currentProjectFiles, setCurrentProjectFiles ] = useState<fileType>([]);
 
     function handleFileChange (e:any) {
         if(!e.target.files || e.target.files.length === 0) return
         setFiles(Array.from(e.target.files))
-        // setCurrentProjectFiles(Array.from(e.target.files))
         setHasFiles(true);
         setBtnDisabled(false);
     }
+    
+    const convertToBase64 = ((file: File) =>{
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(file)
+        })
+    })
+
+    useEffect(() => {
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }, [projects]);
 
     async function handleFileUpload(e: any) {
         const foundProject = projects.find((project: projectType) => project.id === projectId);
-        
-        const convertToBase64 = ((file: File) =>{
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader()
-                reader.onload = () => resolve(reader.result)
-                reader.onerror = reject
-                reader.readAsDataURL(file)
-            })
-        })
-
         const newFiles = []
         for (const file of files) {
             const base64File = await convertToBase64(file)
@@ -59,8 +57,6 @@ function ProjectFiles() {
                 uploadedDate: new Date().toISOString().split('T')[0]
             })
         }
-
-        foundProject.filesCount = newFiles.length
         const existingFiles = foundProject.projectFiles || [];
         const updatedProject = {
             ...foundProject,
@@ -68,12 +64,12 @@ function ProjectFiles() {
         }
         setCurrentProjectFiles([...existingFiles, ...newFiles]);
         
-        const updatedProjects = projects.map((project: projectType) => 
+        const updatedProjects:projectType = projects.map((project: projectType) => 
             project.id === projectId ? updatedProject : project
         );
-        setProjects(updatedProjects);
-
-        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+        
+        dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject })
+        // localStorage.setItem('projects', JSON.stringify(updatedProjects));
 
         setMessage('Files uploaded successfully!');
         setTimeout( () =>{
@@ -85,18 +81,14 @@ function ProjectFiles() {
     }
 
     function handleFileDelete(index: number) {
-        const updatedFiles = currentProjectFiles.filter((file: any, i: number) => i !== index);
+        const updatedFiles = currentProjectFiles.filter((file: fileType, i: number) => i !== index);
         setCurrentProjectFiles(updatedFiles);
         const foundProject = projects.find((project: projectType) => project.id === projectId);
         const updatedProject = {
             ...foundProject,
             projectFiles: updatedFiles
         }
-        const updatedProjects = projects.map((project: projectType) => 
-            project.id === projectId ? updatedProject : project
-        );
-        setProjects(updatedProjects);
-        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+        dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject })
     }
 
     const handleDrop = (e:any) => {
@@ -112,14 +104,11 @@ function ProjectFiles() {
     }
 
     useEffect (() =>{
-        const data = JSON.parse(localStorage.getItem('projects') || '[]') 
-        const foundProject = data.find((project: projectType) => project.id === projectId);
-        if (data.length === 0 || !foundProject) {
+        const foundProject = projects.find((project: projectType) => project.id === projectId);
+        if (projects.length === 0 || !foundProject) {
             setMessage('No project found. Please create a project first.');
             return;
-        }
-        setProjects(data);
-        
+        }        
         setCurrentProjectFiles(foundProject.projectFiles || []);
     }, [])
 
@@ -132,16 +121,13 @@ function ProjectFiles() {
                 <p>Welcome to the project files page!</p>
 
                 <div className='upload-area'>
-
                     <div className="file-upload-section" onDrop={handleDrop} onDragOver={handleDragOver}>
-
                         <label htmlFor="ProjectFile" className="file-upload-btn">
                             <div className="drag-section">
                                 {
                                     files.map((file: File, index: number) => (
                                         <div className="drag-files-field" key={index}>{file.name} )</div>
-                                    ))
-                                    
+                                    ))                                    
                                 }
                                 <div className="drag-area">
                                     <p className={hasFiles ? "hide-me" : ""}>Drag and drop files here</p>
@@ -149,7 +135,6 @@ function ProjectFiles() {
                                 <input type="file" id="ProjectFile" name="ProjectFile" multiple onChange={handleFileChange} />
                             </div>
                         </label>
-
                     </div>
                     <div>
                         <button type="button" disabled={btnDisabled} onClick={handleFileUpload}>Upload</button>
