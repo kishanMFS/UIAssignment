@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Login() {
     const [ formField, setFormField ] = useState<object>({email: 'john@mail.com', password: 'changeme'});
-    const { login } = UserAuth();
+    const { login, isLoggedIn } = UserAuth();
     const [ errors, setErrors ] = useState<object>({email: '', password: ''});
     const [ loginApiError, setloginApiError ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -74,9 +74,7 @@ function Login() {
         }));
     }
     useEffect(()=> {
-
-        const token = localStorage.getItem("jwtToken")
-        if(token){
+        if(isLoggedIn){
             navigate('/projects')
 
         }

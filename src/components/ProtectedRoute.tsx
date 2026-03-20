@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom"
-
+import { UserAuth } from '../context/authenticationContext.tsx';
 
 type childrenType = {
     children : React.ReactNode
@@ -7,9 +7,11 @@ type childrenType = {
 
 function ProtectedRoute({ children}: childrenType){
     const token = localStorage.getItem("jwtToken")
+    const { logout } = UserAuth();
 
     if(!token){
-        return <Navigate to="/login" replace />
+        logout()
+        // return <Navigate to="/login" replace />
 
     }
     

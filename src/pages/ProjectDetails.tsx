@@ -1,28 +1,20 @@
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 
-interface Project {
-    id: string;
-    projectName: string;
-    description: string;
-    files: any[];
-    jobs: any[];
-    createdDate: string;
-}
+import type { projectType } from '../reducers/projectReducers';
+import { projectReducer, initialProject } from '../reducers/projectReducers';
 
 function ProjectDeatails() {
     const { projectId } = useParams();
     const navigate = useNavigate();
-
-    const [project, setProject] = useState<Project | null>(null);
+    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], initialProject)
+    const [ project, setProject ] = useState<projectType>() 
 
     useEffect(() => {
-        
-            const projects = JSON.parse(localStorage.getItem('projects') || '[]');
-            const foundProject = projects.find((p: Project) => p.id === projectId);
-            setProject(foundProject);
-        
+        dispatchProjectReducer({ type:"GET_PROJECT", payload: projectId })
+        const foundProject = projects.find((p: projectType) => p.id === projectId);
+        setProject(foundProject);        
     }, [projectId]);
 
     function handleSubmitFiles() {
@@ -46,11 +38,11 @@ function ProjectDeatails() {
                         </div>
                         <div className='project-details-row'>
                             <span className='project-details-label'>Files</span>
-                            <span>{project.files?.length || 0} files</span>
+                            <span>{project.projectFiles.length || 0} files</span>
                         </div>
                         <div className='project-details-row'>
                             <span className='project-details-label'>Jobs</span>
-                            <span>{project.jobs?.length || 0} jobs</span>
+                            <span>{project.projectJobs.length || 0} jobs</span>
                         </div>
                         <div className='project-details-row'>
                             <span className='project-details-label'>Created Date</span>

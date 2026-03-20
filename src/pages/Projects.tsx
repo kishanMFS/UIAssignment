@@ -3,26 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal/Modal';
 import InputText from '../components/InputText';
 
-import projectReducer from '../reducers/projectReducers';
+import type { projectType } from '../reducers/projectReducers';
+import { projectReducer, initialProject } from '../reducers/projectReducers';
 
 function Projects() {
     const navigate = useNavigate();
-    const [ projects, setProjects ] = useState<[]>([]);
     const [ newProject, setNewProject ] = useState({
         projectName: 'New Project Name',
         description: 'Project description',
-        filesCount: 0,
-        jobsCount: 0,
+        projectFiles: [],
+        projectJobs: [],
         createdDate: new Date().toISOString().split('T')[0]
     });
     const [ modalOpen, setModalOpen ] = useState(false);
-    // const [ projects, dispatch ] = useReducer(projectReducer, [])
+    const [ projects, dispatchProjectReducer ] = useReducer(projectReducer, [], initialProject)
     
     useEffect(() => {
-        setProjects(JSON.parse(localStorage.getItem('projects') || '[]'));
-    }, []);
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }, [projects]);
 
-    function handleOpenProject(projectId: number) {
+    function handleOpenProject(projectId: string) {
         navigate(`/projects/${projectId}`);
     }
 
@@ -36,27 +36,23 @@ function Projects() {
     const handleOpenCreateProject = () => {
         setModalOpen(true);
     }
-    function handleDeleteProject(projectId:number) {
-        const updatedProjects = projects.filter((project)=> project.id !== projectId)
-        setProjects(updatedProjects)
-        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    function handleDeleteProject(projectId:string) {
+        dispatchProjectReducer({ type:"DELETE_PROJECT", payload: projectId })
     }
 
     const handleCreateProject = () => {
-        const existingProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-        const newProjectVlaues = {
+        const newProjectVlaues: projectType = {
             ...newProject,
             id: Date.now().toString() // since id is not defined in projectDetails, we can generate a unique id using timestamp
         };
-        existingProjects.push(newProjectVlaues);
-        setProjects(existingProjects);
-        localStorage.setItem('projects', JSON.stringify(existingProjects));
+        dispatchProjectReducer({ type: 'ADD_PROJECT', payload: newProjectVlaues })
+        localStorage.setItem('projects', JSON.stringify(projects));
         setModalOpen(false);
         setNewProject({
             projectName:'',
             description: '',
-            filesCount: 0,
-            jobsCount: 0,
+            projectFiles: [],
+            projectJobs: [],
             createdDate: new Date().toISOString().split('T')[0]
         })
     };
@@ -65,7 +61,6 @@ function Projects() {
         setModalOpen(false);
     }
 
-    
     return (
         <div>
             <Modal title="Create New Project" modalOpen={modalOpen} setModalOpen={setModalOpen} footer={
@@ -106,7 +101,7 @@ function Projects() {
                 
                 <table className="projects-table">
                     <thead>
-                        <tr className="table-row-header">
+                        <tr align="center" className="table-row-header">
                             <th className="table-header">Project Name</th>
                             <th className="table-header">Description</th>
                             <th className="table-header">Files Count</th>
@@ -117,13 +112,13 @@ function Projects() {
                     </thead>
                     <tbody>
                         {
-                            projects.map((project: object, index: number) => (
-                                <tr key={index} className="table-row">
-                                    <td className="table-data">{project.projectName}</td>
-                                    <td className="table-data">{project.description}</td>
-                                    <td className="table-data">{project.filesCount}</td>
-                                    <td className="table-data">{project.jobsCount}</td>
-                                    <td className="table-data">{project.createdDate}</td>
+                            projects.map((project: projectType, index: number) => (
+                                <tr align="left" key={index} className="table-row">
+                                    <td className="table-data table-cell">{project.projectName}</td>
+                                    <td className="table-data table-cell">{project.description}</td>
+                                    <td className="table-data table-cell">{project.projectFiles.length}</td>
+                                    <td className="table-data table-cell">{project.projectJobs.length}</td>
+                                    <td className="table-data table-cell">{project.createdDate}</td>
                                     <td className="table-data">
                                         <div className="actions-container">
                                             <button onClick={() => handleOpenProject(project.id)} className="btn">Open</button>
@@ -136,7 +131,6 @@ function Projects() {
                     </tbody>
                 </table>
             </div>
-
 
         </div>
     )
