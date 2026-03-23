@@ -287,3 +287,19 @@ input[type="file"] {
 .current-date-time {
     color: black
 }
+
+@media (max-width: 880px) {
+    .upload-area {
+        min-width : 600px
+    }
+    .drag-section {
+        min-width: 300px;
+    }
+    .files-container {
+        flex-direction: column;
+    }
+    .preview-section {
+        border-right: none;
+        border-bottom: 1px solid white;
+    }
+}
