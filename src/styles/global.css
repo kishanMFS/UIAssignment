@@ -246,6 +246,9 @@ input[type="file"] {
     background-color: aqua;
     padding: 5px;
     margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .nav-item {
@@ -280,4 +283,7 @@ input[type="file"] {
     height: 61%;
     padding: 5px;
     border-radius: 5px;
+}
+.current-date-time {
+    color: black
 }
