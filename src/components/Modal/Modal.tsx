@@ -3,6 +3,7 @@
 // import { useState } from 'react';
 import type React from 'react';
 // import InputText from '../InputText';
+import '../../styles/modal.css'
 
 interface ModalType { 
     modalOpen: boolean,
