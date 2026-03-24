@@ -1,12 +1,16 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom"
 import { useState, useEffect } from 'react'
 import { UserAuth } from '../context/authenticationContext.tsx';
+import { useErrorContext } from '../context/ErrorContext.tsx'
+import Error from './Error.tsx'
+
 
 function NavBar () {
     // const navigate = useNavigate()
     const { logout } = UserAuth();
     const [currentDateTime, setCurrentDateTime] = useState<string>( new Date().toLocaleString() )
     const [currentDateTimeRunning, setCurrentDateTimeRunning ] = useState<boolean>(true)
+    const { errorMessage, closeError } = useErrorContext()
 
     const handleLogout = () => {
         logout()
@@ -41,7 +45,11 @@ function NavBar () {
                 </div>
             </nav>
             <div className="container">
-                <Outlet />
+                <div>
+                    <Error message={errorMessage} onClose={closeError}/>
+                </div>
+                
+                <Outlet />                
             </div>
         </>
     )

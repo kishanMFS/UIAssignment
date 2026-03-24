@@ -23,7 +23,7 @@ function Projects() {
     }, [projects]);
 
     function handleOpenProject(projectId: string) {
-        navigate(`/projects/${projectId}`);
+        navigate(`/projects/${projectId}`);        
     }
 
     const handleInputChange = (field: string, value: string) => {
