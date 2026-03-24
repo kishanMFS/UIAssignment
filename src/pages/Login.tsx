@@ -84,12 +84,14 @@ function Login() {
             [field]: value
         }));
     }
+
     useEffect(()=> {
         if(isLoggedIn){
             navigate('/projects')
-
         }
     })
+
+    
     return (
         <div>
             {isLoading && <Spinner />}
