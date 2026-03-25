@@ -43,3 +43,13 @@ input[type="file"] {
 .inputField {
     margin-bottom: 16px;
 }
+
+.globalErrorPageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
