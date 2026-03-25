@@ -242,6 +242,18 @@ input[type="file"] {
     padding: 0px 5px;
 }
 
+.file-error {
+    background-color: #2c5537;
+    color: red;
+    position: absolute;
+    font-size: smaller;
+    right: 0;
+    bottom: -24px;
+    padding: 0 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .nav-bar {
     background-color: aqua;
     padding: 5px;
