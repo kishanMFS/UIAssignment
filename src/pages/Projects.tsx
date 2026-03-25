@@ -43,6 +43,11 @@ function Projects() {
   const handleOpenCreateProject = () => {
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    if (modalOpen) document.querySelector("input[name='projectName']").focus();
+  }, [modalOpen]);
+
   function handleDeleteProject(projectId: string) {
     dispatchProjectReducer({ type: "DELETE_PROJECT", payload: projectId });
   }
@@ -76,12 +81,19 @@ function Projects() {
         footer={
           <>
             <button
+              type="button"
               className={GlobalModuleCSS.btn}
               onClick={handleCreateProject}
+              aria-label="create new project"
             >
               Create
             </button>
-            <button className={GlobalModuleCSS.btn} onClick={handleOnClose}>
+            <button
+              type="button"
+              className={GlobalModuleCSS.btn}
+              onClick={handleOnClose}
+              aria-label="close modal to create new project"
+            >
               Close
             </button>
           </>
@@ -157,14 +169,18 @@ function Projects() {
                   <td>
                     <div className={ProjectsModuleCSS.actionsContainer}>
                       <button
+                        type="button"
                         onClick={() => handleOpenProject(project.id)}
                         className={GlobalModuleCSS.btn}
+                        aria-label={`open project ${project.projectName} `}
                       >
                         Open
                       </button>
                       <button
+                        type="button"
                         onClick={() => handleDeleteProject(project.id)}
                         className={GlobalModuleCSS.btn}
+                        aria-label={`delete project ${project.projectName} `}
                       >
                         Delete
                       </button>
