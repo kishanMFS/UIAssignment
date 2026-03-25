@@ -2,10 +2,10 @@
 
 A modern **React + TypeScript** application bootstrapped with **Vite**.
 This project includes: 
-file uploads 
-project management 
-global error handling 
-uses **ESLint + Prettier + Husky** for code quality
+* file uploads
+* project management
+* global error handling
+* uses **ESLint + Prettier + Husky** for code quality
 
 ---
 
@@ -41,15 +41,15 @@ uses **ESLint + Prettier + Husky** for code quality
 
 ```
 src/
-│
-├─ components/          # Reusable components (Modal, Error, NavBar, InputText)
-├─ context/             # React Contexts (authentication, error handling)
-├─ pages/               # Route pages (Projects, ProjectFiles, Login, Error)
-├─ reducers/            # Reducers and state management (projectReducer)
-├─ routes/              # Route definitions
-├─ styles/              # Global or module CSS files
-├─ App.tsx              # Main application entry
-└─ main.tsx             # Vite entry point
+|
+|- components/          # Reusable components (Modal, Error, NavBar, InputText)
+|- context/             # React Contexts (authentication, error handling)
+|- pages/               # Route pages (Projects, ProjectFiles, Login, Error)
+|- reducers/            # Reducers and state management (projectReducer)
+|- routes/              # Route definitions
+|- styles/              # Global or module CSS files
+|- App.tsx              # Main application entry
+|- main.tsx             # Vite entry point
 ```
 
 ---
