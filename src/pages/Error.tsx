@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import GlobalModuleCSS from "../styles/Global.module.css";
+import { isProd } from "../components/helper.ts";
+
 function RenderError() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -10,9 +12,9 @@ function RenderError() {
     navigate("/");
   }
   return (
-    <div>
+    <div className={GlobalModuleCSS.globalErrorPageContainer}>
       <h3>Something went wrong</h3>
-      <p>{error || "unexpected error occured"}</p>
+      {!isProd ? <p>{error || "unexpected error occured"}</p> : ""}
       <button className={GlobalModuleCSS.btn} onClick={handleButtonClick}>
         Go Home
       </button>
