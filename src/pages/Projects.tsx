@@ -122,55 +122,59 @@ function Projects() {
           </button>
         </div>
 
-        <table>
-          <thead>
-            <tr align="center">
-              <th>Project Name</th>
-              <th>Description</th>
-              <th>Files Count</th>
-              <th>Jobs Count</th>
-              <th>Created Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((project: projectType, index: number) => (
-              <tr align="left" key={index}>
-                <td className={ProjectsModuleCSS.tableCell}>
-                  {project.projectName}
-                </td>
-                <td className={ProjectsModuleCSS.tableCell}>
-                  {project.description}
-                </td>
-                <td className={ProjectsModuleCSS.tableCell}>
-                  {project.projectFiles.length}
-                </td>
-                <td className={ProjectsModuleCSS.tableCell}>
-                  {project.projectJobs.length}
-                </td>
-                <td className={ProjectsModuleCSS.tableCell}>
-                  {project.createdDate}
-                </td>
-                <td>
-                  <div className={ProjectsModuleCSS.actionsContainer}>
-                    <button
-                      onClick={() => handleOpenProject(project.id)}
-                      className={GlobalModuleCSS.btn}
-                    >
-                      Open
-                    </button>
-                    <button
-                      onClick={() => handleDeleteProject(project.id)}
-                      className={GlobalModuleCSS.btn}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
+        {projects.length ? (
+          <table>
+            <thead>
+              <tr align="center">
+                <th>Project Name</th>
+                <th>Description</th>
+                <th>Files Count</th>
+                <th>Jobs Count</th>
+                <th>Created Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {projects.map((project: projectType, index: number) => (
+                <tr align="left" key={index}>
+                  <td className={ProjectsModuleCSS.tableCell}>
+                    {project.projectName}
+                  </td>
+                  <td className={ProjectsModuleCSS.tableCell}>
+                    {project.description}
+                  </td>
+                  <td className={ProjectsModuleCSS.tableCell}>
+                    {project.projectFiles.length}
+                  </td>
+                  <td className={ProjectsModuleCSS.tableCell}>
+                    {project.projectJobs.length}
+                  </td>
+                  <td className={ProjectsModuleCSS.tableCell}>
+                    {project.createdDate}
+                  </td>
+                  <td>
+                    <div className={ProjectsModuleCSS.actionsContainer}>
+                      <button
+                        onClick={() => handleOpenProject(project.id)}
+                        className={GlobalModuleCSS.btn}
+                      >
+                        Open
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProject(project.id)}
+                        className={GlobalModuleCSS.btn}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          "No Projects Available"
+        )}
       </div>
     </div>
   );

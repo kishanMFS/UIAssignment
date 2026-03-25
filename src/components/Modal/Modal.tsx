@@ -37,7 +37,9 @@ function Modal({
                 </div>
               </div>
               <div className={ModalModuleCSS.modalBody}>{children}</div>
-              <div className={ModalModuleCSS.modalFooter}>{footer}</div>
+              <div className={ModalModuleCSS.modalFooter}>
+                <div className={ModalModuleCSS.modalFooterBtn}>{footer}</div>
+              </div>
             </div>
           </div>
         </div>
