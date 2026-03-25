@@ -1,73 +1,147 @@
-# React + TypeScript + Vite
+# Project Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **React + TypeScript** application bootstrapped with **Vite**.
+This project includes: 
+file uploads 
+project management 
+global error handling 
+uses **ESLint + Prettier + Husky** for code quality
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+* **React 18**
+* **TypeScript**
+* **Vite**
+* **React Router v7.13.1**
+* **Context API / useReducer** for state management
+* **CSS Modules** for scoped styling
+* **ESLint + Prettier + Husky** for code formatting and linting
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Project Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Create, update, and delete projects
+* Upload project files with **size validation**
+* Drag-and-drop file upload support
+* Preview uploaded files and files to be uploaded
+* Global error boundary for catching render errors
+* Protected routes with user authentication
+* Scoped CSS using CSS Modules
+* Dev tooling:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  * ESLint + Prettier for code style
+  * Husky + lint-staged for pre-commit checks
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Folder Structure
+
+```
+src/
+│
+├─ components/          # Reusable components (Modal, Error, NavBar, InputText)
+├─ context/             # React Contexts (authentication, error handling)
+├─ pages/               # Route pages (Projects, ProjectFiles, Login, Error)
+├─ reducers/            # Reducers and state management (projectReducer)
+├─ routes/              # Route definitions
+├─ styles/              # Global or module CSS files
+├─ App.tsx              # Main application entry
+└─ main.tsx             # Vite entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Setup & Run
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the repository
+
+```bash
+git clone <repo-url>
+cd <repo-folder>
 ```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+---
+
+## ESLint + Prettier + Husky
+
+This project uses **ESLint + Prettier** to enforce code style and **Husky + lint-staged** to check code before commits.
+
+### 1. ESLint
+
+* Lints TypeScript + React files
+* Run manually:
+
+```bash
+npm run lint
+```
+
+### 2. Prettier
+
+* Automatically formats your code
+* Run manually:
+
+```bash
+npm run format
+```
+
+### 3. Husky + lint-staged
+
+* Pre-commit hook automatically runs **lint & format**
+* Setup was done via:
+
+```bash
+npx husky install
+```
+
+* Example `package.json` lint-staged config:
+
+```json
+"lint-staged": {
+  "*.{ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+}
+```
+
+* Add new pre-commit hook:
+
+```bash
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+---
+
+## Notes
+
+* All styles are **scoped using CSS Modules**
+* Files larger than the **10 Kb** are ignored but previewed with a warning
+* Global errors are handled with a **React Error Boundary** component
+* Protected routes ensure authenticated access
+* State is managed using **useReducer + Context API**
+
+---
+
