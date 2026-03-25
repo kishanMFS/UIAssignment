@@ -27,8 +27,7 @@ const ErrorBoundaryWrapper = ({children}: childrenType) => {
     
     return (
         <GlobalErrorBoundary  onError={(err: any) => {
-            setError(err);   // ✅ safe (state update)
-            // return null;     // no UI
+            setError(err);
         }}>
             {children}
         </GlobalErrorBoundary>
