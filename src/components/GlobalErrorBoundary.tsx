@@ -1,5 +1,4 @@
 import React from "react";
-import Error from "./Error";
 
 type propsType = {
   children: React.ReactNode;
@@ -29,8 +28,6 @@ class GlobalErrorBoundary extends React.Component<propsType, stateType> {
 
   handleReset = () => {
     this.setState({ hasError: false, error: null });
-    // optional: reload to recover cleanly
-    // window.location.reload();
   };
 
   render() {
