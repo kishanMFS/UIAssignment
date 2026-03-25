@@ -160,7 +160,7 @@ function ProjectFiles() {
                 </div>
               </label>
             </div>
-            <div>
+            <div className={ProjectFilesModuleCSS.projectFileUpload}>
               <button
                 className={GlobalModuleCSS.btn}
                 type="button"
@@ -188,9 +188,7 @@ function ProjectFiles() {
                 </div>
               ))}
             </div>
-            <div
-              className={` ${ProjectFilesModuleCSS.uploadedFilesSection} ${ProjectFilesModuleCSS.filesSection} `}
-            >
+            <div className={`  ${ProjectFilesModuleCSS.filesSection} `}>
               <h2>Uploaded Files</h2>
               <div className={ProjectFilesModuleCSS.filesContent}>
                 {currentProjectFiles.map((file: fileType, index: number) => (

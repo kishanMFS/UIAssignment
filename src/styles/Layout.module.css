@@ -1,3 +1,13 @@
+.root {
+    background-color: #ccc;
+    display: flex;
+    flex-direction: column;
+    min-height: 200svh;
+    min-width: 100svh;
+    color: black;
+}
+
+
 .navBar {
     background-color: aqua;
     padding: 5px;
@@ -18,4 +28,16 @@
 
 .currentDateTime {
     color: black
+}
+
+@media (max-width:350px) {
+    .navLinkList{
+        display: flex;
+        flex-direction: column;
+    }
+    .navItem {
+        display: flex;
+        border: 1px solid black;
+        position: relative;
+    }
 }

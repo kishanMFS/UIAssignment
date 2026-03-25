@@ -4,3 +4,8 @@
     margin: 0 auto;
     padding: 20px;
 }
+
+.loginBtn {
+    display: flex;
+    flex-direction: column;
+}
