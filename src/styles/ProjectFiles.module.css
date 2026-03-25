@@ -8,7 +8,8 @@
 .filesContent{
     display: flex;
     flex-direction: column;
-    gap: 10px; 
+    gap: 10px;
+    color: #ffffff;
 }
 
 .dragFilesField {
@@ -30,6 +31,7 @@
     min-width: 400px;
     padding: 4px;
     position: relative;
+    color: #ffffff;
 }
 
 .uploadArea {
@@ -110,10 +112,14 @@
     border-bottom-right-radius: 5px;
 }
 
-
+.projectFileUpload {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0px;
+}
 @media (max-width: 880px) {
     .uploadArea {
-        min-width : 600px
+        min-width : 90svh
     }
     .dragSection {
         min-width: 300px;
@@ -126,3 +132,4 @@
         border-bottom: 1px solid white;
     }
 }
+

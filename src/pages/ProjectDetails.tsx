@@ -28,8 +28,10 @@ function ProjectDeatails() {
 
   return (
     <div>
-      <h1>Project Details Page</h1>
-      <p>Welcome to the project details page!</p>
+      <div className={ProjectDetailsModuleCSS.productDetailsPageHeader}>
+        <h1>Project Details Page</h1>
+        <p>Welcome to the project details page!</p>
+      </div>
       {project && (
         <div>
           <div className={ProjectDetailsModuleCSS.projectDetailsContainer}>
@@ -65,7 +67,9 @@ function ProjectDeatails() {
               </span>
               <span>{project.createdDate}</span>
             </div>
-            <div className={ProjectDetailsModuleCSS.projectDetailsRow}>
+            <div
+              className={` ${ProjectDetailsModuleCSS.projectDetailsRow} ${ProjectDetailsModuleCSS.productDetailsBtn}`}
+            >
               <input
                 type="button"
                 className={GlobalModuleCSS.btn}

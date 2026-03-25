@@ -16,10 +16,31 @@
 
 .projectDetailsLabel {
     font-weight: bold;
-    color: white;
     min-width: 200px;
     text-align: left;
 }
 
+.productDetailsPageHeader {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
 
 
+@media (max-width:350px) {
+    
+    .projectDetailsRow {
+        flex-direction: column;
+        display: flex;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        line-height: 10px;
+        padding: 5px
+    }
+
+    .productDetailsBtn {
+        align-content: stretch;
+    }
+}

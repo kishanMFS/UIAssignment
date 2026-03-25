@@ -115,10 +115,12 @@ function Login() {
       {loginApiError && <p className="error-message">{loginApiError}</p>}
       {isLoading && (
         <div className={ProgressBarModuleCSS.progressBarContainer}>
-          <div
-            className={ProgressBarModuleCSS.progressBar}
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className={ProgressBarModuleCSS.progressBar}>
+            <div
+              className={ProgressBarModuleCSS.progress}
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
         </div>
       )}
       <div className={LoginModuleCSS.loginContainer}>
@@ -147,9 +149,11 @@ function Login() {
               />
             </label>
           </div>
-          <button type="submit" className={GlobalModuleCSS.btn}>
-            Login
-          </button>
+          <div className={LoginModuleCSS.loginBtn}>
+            <button type="submit" className={GlobalModuleCSS.btn}>
+              Login
+            </button>
+          </div>
         </form>
       </div>
     </div>

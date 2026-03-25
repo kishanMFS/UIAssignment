@@ -109,8 +109,10 @@ function Projects() {
         </div>
       </Modal>
 
-      <h1>Projects Page</h1>
-      <p>Welcome to the projects page!</p>
+      <div className={ProjectsModuleCSS.productPageHeader}>
+        <h1>Projects Page</h1>
+        <p>Welcome to the projects page!</p>
+      </div>
 
       <div className={ProjectsModuleCSS.projectsContainer}>
         <div className={ProjectsModuleCSS.containerHeaderBtn}>

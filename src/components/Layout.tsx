@@ -34,9 +34,9 @@ function NavBar() {
   }
 
   return (
-    <div>
+    <div className={LayoutModuleCSS.root}>
       <nav className={LayoutModuleCSS.navBar}>
-        <div>
+        <div className={LayoutModuleCSS.navLinkList}>
           <NavLink to="/projects" className={LayoutModuleCSS.navItem}>
             Project
           </NavLink>
