@@ -1,13 +1,13 @@
-.error-container {
+.errorContainer {
     padding: 5px;
     background-color: white;
     margin: 5px;
 }
 
-.error-message-area {
+.errorMessageArea {
     position: relative;
 }
-.error-btn {
+.errorBtn {
     position: absolute;
     right: -5px;
     background-color: white;
@@ -16,6 +16,6 @@
     top: -5px;
 }
 
-.error-btn:hover{
+.errorBtn:hover{
     color: aqua;
 }

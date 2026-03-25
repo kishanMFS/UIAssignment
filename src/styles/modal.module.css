@@ -1,4 +1,4 @@
-.modal-container {
+.modalContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,7 +9,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
-.modal-overlay {
+.modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,21 +31,31 @@
     margin: 0 auto;
 }
 
-.modal-header {
+.modalHeader {
     font-size: 1.5em;
     margin-bottom: 10px;
     border-bottom: #007bff solid 1px;
     color: #383737;
 }
 
-.modal-body {
+.modalBody {
     margin-bottom: 20px;
     color: #383737;
 }
 
-.modal-footer {
+.modalFooter {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     bottom: 0;
 }
+
+.closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}   

@@ -1,53 +1,49 @@
+import type React from "react";
+import ModalModuleCSS from "../../styles/Modal.module.css";
 
-
-// import { useState } from 'react';
-import type React from 'react';
-// import InputText from '../InputText';
-import '../../styles/modal.css'
-
-interface ModalType { 
-    modalOpen: boolean,
-    setModalOpen: (open: boolean) => void,
-    title: string,
-    children: React.ReactNode,
-    footer: React.ReactNode
+interface ModalType {
+  modalOpen: boolean;
+  setModalOpen: (open: boolean) => void;
+  title: string;
+  children: React.ReactNode;
+  footer: React.ReactNode;
 }
 
-function Modal( { modalOpen, setModalOpen, title="default modal title", children, footer }: ModalType ) {
-    
-    function handleOnClose() {
-        setModalOpen(false);
-    }
+function Modal({
+  modalOpen,
+  setModalOpen,
+  title = "default modal title",
+  children,
+  footer,
+}: ModalType) {
+  function handleOnClose() {
+    setModalOpen(false);
+  }
 
-    return (
-        <div>
-            {
-                modalOpen && 
-                (
-                    <div className="modal-container">
-                        <div className="modal-overlay"></div>
-                        <div className="modal">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h2>{title}</h2>
-                                    <div className="close-btn" onClick={handleOnClose}>
-                                        &times;
-                                    </div>
-                                </div>
-                                <div className="modal-body">
-                                    {children}
-                                    
-                                </div>
-                                <div className="modal-footer">
-                                    {footer}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
+  return (
+    <div>
+      {modalOpen && (
+        <div className={ModalModuleCSS.modalContainer}>
+          <div className={ModalModuleCSS.modalOverlay}></div>
+          <div className={ModalModuleCSS.modal}>
+            <div className={ModalModuleCSS.modalContent}>
+              <div className={ModalModuleCSS.modalHeader}>
+                <h2>{title}</h2>
+                <div
+                  className={ModalModuleCSS.closeBtn}
+                  onClick={handleOnClose}
+                >
+                  &times;
+                </div>
+              </div>
+              <div className={ModalModuleCSS.modalBody}>{children}</div>
+              <div className={ModalModuleCSS.modalFooter}>{footer}</div>
+            </div>
+          </div>
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
-export default Modal
+export default Modal;

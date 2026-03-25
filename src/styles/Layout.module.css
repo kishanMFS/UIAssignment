@@ -1,0 +1,21 @@
+.navBar {
+    background-color: aqua;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navItem {
+    text-decoration: none;
+    background-color: antiquewhite;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    padding: 5px;
+    
+}
+
+.currentDateTime {
+    color: black
+}

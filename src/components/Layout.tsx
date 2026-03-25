@@ -1,58 +1,70 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom"
-import { useState, useEffect } from 'react'
-import { UserAuth } from '../context/authenticationContext.tsx';
-import { useErrorContext } from '../context/ErrorContext.tsx'
-import Error from './Error.tsx'
+import { Outlet, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { UserAuth } from "../context/authenticationContext.tsx";
+import { useErrorContext } from "../context/ErrorContext.tsx";
+import Error from "./Error.tsx";
+import LayoutModuleCSS from "../styles/Layout.module.css";
 
+function NavBar() {
+  const { logout } = UserAuth();
+  const [currentDateTime, setCurrentDateTime] = useState<string>(
+    new Date().toLocaleString(),
+  );
+  const [currentDateTimeRunning, setCurrentDateTimeRunning] =
+    useState<boolean>(true);
+  const { errorMessage, closeError } = useErrorContext();
 
-function NavBar () {
-    // const navigate = useNavigate()
-    const { logout } = UserAuth();
-    const [currentDateTime, setCurrentDateTime] = useState<string>( new Date().toLocaleString() )
-    const [currentDateTimeRunning, setCurrentDateTimeRunning ] = useState<boolean>(true)
-    const { errorMessage, closeError } = useErrorContext()
+  const handleLogout = () => {
+    logout();
+  };
 
-    const handleLogout = () => {
-        logout()
-        // navigate('/login')
+  useEffect(() => {
+    if (!currentDateTimeRunning) {
+      return;
     }
 
-    useEffect (()=> {
-        if(!currentDateTimeRunning) {
-            return
-        }
-        
-        const currentDatetimeIntervalId = setInterval( ()=>{
-            setCurrentDateTime((new Date()).toLocaleString())
-        }, 900)
-        return () => clearInterval(currentDatetimeIntervalId)
+    const currentDatetimeIntervalId = setInterval(() => {
+      setCurrentDateTime(new Date().toLocaleString());
+    }, 900);
+    return () => clearInterval(currentDatetimeIntervalId);
+  }, [currentDateTimeRunning]);
 
-    }, [currentDateTimeRunning])
+  function handleStartStopCurrentDateTime(hoverState: boolean) {
+    setCurrentDateTimeRunning(hoverState);
+  }
 
-    function handleStartStopCurrentDateTime (hoverState) {
-        setCurrentDateTimeRunning(hoverState)
-    }
+  return (
+    <div>
+      <nav className={LayoutModuleCSS.navBar}>
+        <div>
+          <NavLink to="/projects" className={LayoutModuleCSS.navItem}>
+            Project
+          </NavLink>
+          <NavLink
+            to=""
+            className={LayoutModuleCSS.navItem}
+            onClick={handleLogout}
+          >
+            Sign Out
+          </NavLink>
+        </div>
+        <div
+          className={LayoutModuleCSS.currentDateTime}
+          onMouseEnter={() => handleStartStopCurrentDateTime(false)}
+          onMouseLeave={() => handleStartStopCurrentDateTime(true)}
+        >
+          {currentDateTime}
+        </div>
+      </nav>
+      <div>
+        <div>
+          <Error message={errorMessage} onClose={closeError} />
+        </div>
 
-    return (
-        <>
-            <nav className="nav-bar">
-                <div>
-                    <NavLink to="/projects" className="nav-item">Project</NavLink>
-                    <NavLink to="" className="nav-item" onClick={handleLogout}>Sign Out</NavLink>
-                </div>
-                <div className="current-date-time" onMouseEnter={() => handleStartStopCurrentDateTime(false)} onMouseLeave={()=> handleStartStopCurrentDateTime(true)}>
-                    {currentDateTime}
-                </div>
-            </nav>
-            <div className="container">
-                <div>
-                    <Error message={errorMessage} onClose={closeError}/>
-                </div>
-                
-                <Outlet />                
-            </div>
-        </>
-    )
+        <Outlet />
+      </div>
+    </div>
+  );
 }
 
-export default NavBar
+export default NavBar;

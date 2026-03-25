@@ -5,6 +5,9 @@ import type { projectType } from "../reducers/projectReducers";
 import { projectReducer, getProjects } from "../reducers/projectReducers";
 import { useErrorContext } from "../context/ErrorContext.tsx";
 
+import ProjectFilesModuleCSS from "../styles/ProjectFiles.module.css";
+import GlobalModuleCSS from "../styles/Global.module.css";
+
 interface fileType {
   name: string;
   size: number;
@@ -79,7 +82,7 @@ function ProjectFiles() {
     showErrorMessage("Files uploaded successfully!");
     setTimeout(() => {
       showErrorMessage("");
-    }, 1000);
+    }, 3000);
     setFiles([]);
     setHasFiles(false);
     setBtnDisabled(true);
@@ -113,33 +116,37 @@ function ProjectFiles() {
   useEffect(() => {
     if (!foundProject) {
       showErrorMessage("No project found. Please create a project first.");
-    } else {
-      showErrorMessage("");
     }
   }, [foundProject, showErrorMessage]);
 
   return (
     <div>
       {foundProject ? (
-        <div className="project-files-page">
+        <div className={ProjectFilesModuleCSS.projectFilesPage}>
           <h1>Project Files Page</h1>
           <p>Welcome to the project files page!</p>
 
-          <div className="upload-area">
+          <div className={ProjectFilesModuleCSS.uploadArea}>
             <div
-              className="file-upload-section"
+              className={ProjectFilesModuleCSS.fileUploadSection}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
             >
-              <label htmlFor="ProjectFile" className="file-upload-btn">
-                <div className="drag-section">
+              <label
+                htmlFor="ProjectFile"
+                className={ProjectFilesModuleCSS.fileUploadBtn}
+              >
+                <div className={ProjectFilesModuleCSS.dragSection}>
                   {files.map((file: File, index: number) => (
-                    <div className="drag-files-field" key={index}>
+                    <div
+                      className={ProjectFilesModuleCSS.dragFilesField}
+                      key={index}
+                    >
                       {file.name} )
                     </div>
                   ))}
-                  <div className="drag-area">
-                    <p className={hasFiles ? "hide-me" : ""}>
+                  <div className={ProjectFilesModuleCSS.dragArea}>
+                    <p className={hasFiles ? GlobalModuleCSS.hideMe : ""}>
                       Drag and drop files here
                     </p>
                   </div>
@@ -155,7 +162,7 @@ function ProjectFiles() {
             </div>
             <div>
               <button
-                className="btn"
+                className={GlobalModuleCSS.btn}
                 type="button"
                 disabled={btnDisabled}
                 onClick={handleFileUpload}
@@ -164,34 +171,40 @@ function ProjectFiles() {
               </button>
             </div>
           </div>
-          <div className="files-container">
-            <div className="preview-section files-section">
+          <div className={ProjectFilesModuleCSS.filesContainer}>
+            <div
+              className={` ${ProjectFilesModuleCSS.previewSection} ${ProjectFilesModuleCSS.filesSection} `}
+            >
               <h2>Files Preview</h2>
               {files.map((file: File, index: number) => (
-                <div className="files-field" key={index}>
+                <div className={ProjectFilesModuleCSS.filesField} key={index}>
                   <div>{file.name}</div>
-                  <div className="file-size">size : {file.size / 1000} Kb</div>
-                  <div className="file-error">
+                  <div className={ProjectFilesModuleCSS.fileSize}>
+                    size : {file.size / 1000} Kb
+                  </div>
+                  <div className={ProjectFilesModuleCSS.fileError}>
                     {file.size > FILE_MAX_SIZE ? "File size too big" : ""}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="uploaded-files-section files-section">
+            <div
+              className={` ${ProjectFilesModuleCSS.uploadedFilesSection} ${ProjectFilesModuleCSS.filesSection} `}
+            >
               <h2>Uploaded Files</h2>
-              <div className="files-content">
+              <div className={ProjectFilesModuleCSS.filesContent}>
                 {currentProjectFiles.map((file: fileType, index: number) => (
-                  <div className="files-field" key={index}>
-                    <div className="file-delete-btn">
+                  <div className={ProjectFilesModuleCSS.filesField} key={index}>
+                    <div className={ProjectFilesModuleCSS.fileDeleteBtn}>
                       <span
-                        className="file-delete"
+                        className={ProjectFilesModuleCSS.fileDelete}
                         onClick={() => handleFileDelete(index)}
                       >
                         x
                       </span>
                     </div>
                     <div>{file.name}</div>
-                    <div className="file-size">
+                    <div className={ProjectFilesModuleCSS.fileSize}>
                       size : {file.size / 1000} Kb | Uploaded Date:{" "}
                       {file.uploadedDate}
                     </div>
