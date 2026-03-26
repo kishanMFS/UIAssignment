@@ -10,9 +10,9 @@ interface ModalType {
 }
 
 function Modal({
+  title = "default modal title",
   modalOpen,
   setModalOpen,
-  title = "default modal title",
   children,
   footer,
 }: ModalType) {
