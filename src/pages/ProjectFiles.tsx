@@ -131,6 +131,13 @@ function ProjectFiles() {
               className={ProjectFilesModuleCSS.fileUploadSection}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
+              tabIndex={0}
+              aria-label="File upload area. Press Enter to open file selector"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  document.getElementById("ProjectFile")?.click();
+                }
+              }}
             >
               <label
                 htmlFor="ProjectFile"
@@ -146,9 +153,7 @@ function ProjectFiles() {
                     </div>
                   ))}
                   <div className={ProjectFilesModuleCSS.dragArea}>
-                    <p className={hasFiles ? GlobalModuleCSS.hideMe : ""}>
-                      Drag and drop files here
-                    </p>
+                    {hasFiles ? "" : <p>Drag and drop files here</p>}
                   </div>
                   <input
                     type="file"
@@ -197,6 +202,12 @@ function ProjectFiles() {
                       <span
                         className={ProjectFilesModuleCSS.fileDelete}
                         onClick={() => handleFileDelete(index)}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleFileDelete(index);
+                          }
+                        }}
                       >
                         x
                       </span>
