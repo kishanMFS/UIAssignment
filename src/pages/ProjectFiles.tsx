@@ -134,7 +134,7 @@ function ProjectFiles() {
               tabIndex={0}
               aria-label="File upload area. Press Enter to open file selector"
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
+                if (e.key === "Enter") {
                   document.getElementById("ProjectFile")?.click();
                 }
               }}
@@ -203,6 +203,11 @@ function ProjectFiles() {
                         className={ProjectFilesModuleCSS.fileDelete}
                         onClick={() => handleFileDelete(index)}
                         tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleFileDelete(index);
+                          }
+                        }}
                       >
                         x
                       </span>

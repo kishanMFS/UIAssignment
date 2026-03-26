@@ -124,7 +124,7 @@ function Login() {
         </div>
       )}
       <div className={LoginModuleCSS.loginContainer}>
-        <h1>Login Page</h1>
+        <h1>Project Management</h1>
         <form method="post" action="" onSubmit={handleLoginUser}>
           <div className={InputTextModuleCSS.inputField}>
             <label htmlFor="email">
