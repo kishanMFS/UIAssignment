@@ -81,12 +81,10 @@ function ProjectFiles() {
       (file: fileType, i: number) => i !== index,
     );
     setCurrentProjectFiles(updatedFiles);
-    // const foundProject = projects.find((project: projectType) => project.id === projectId);
     const updatedProject = {
       ...foundProject,
       projectFiles: updatedFiles,
     };
-    // dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject });
     updateProject(updatedProject);
   }
 
