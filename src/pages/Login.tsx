@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import InputText from "../components/InputText.tsx";
-import loginUser from "../services/loginAPI.ts";
+import loginUserService from "../services/loginAPI.ts";
 import Spinner from "../components/Spinner.tsx";
 
-import { UserAuth } from "../context/authenticationContext.tsx";
+import useAuth from "../hooks/useAuth.ts";
 import { useNavigate } from "react-router-dom";
 
 import LoginModuleCSS from "../styles/Login.module.css";
@@ -11,18 +11,19 @@ import InputTextModuleCSS from "../styles/InputText.module.css";
 import ProgressBarModuleCSS from "../styles/ProgressBar.module.css";
 import GlobalModuleCSS from "../styles/Global.module.css";
 
-interface formFiledType {
+interface formFeildType {
   email: string;
   password: string;
 }
 
 function Login() {
-  const [formField, setFormField] = useState<formFiledType>({
+  const [formField, setFormField] = useState<formFeildType>({
     email: "john@mail.com",
     password: "changeme",
   });
-  const { login, isLoggedIn } = UserAuth();
-  const [errors, setErrors] = useState<formFiledType>({
+  const { loginUser, isLoggedIn } = useAuth();
+
+  const [errors, setErrors] = useState<formFeildType>({
     email: "",
     password: "",
   });
@@ -75,10 +76,10 @@ function Login() {
         email: formField.email,
         password: formField.password,
       };
-      const response = await loginUser({ credentials, onProgress });
+      const response = await loginUserService({ credentials, onProgress });
       const jwttoken = response.access_token;
       if (jwttoken) {
-        login(jwttoken);
+        loginUser(jwttoken);
       }
 
       setIsLoading(false);
@@ -86,7 +87,7 @@ function Login() {
       if (response.statusCode === 401) {
         setloginApiError(response.message);
       }
-    } catch (error: React.ReactEventHandler) {
+    } catch (error: unknown) {
       console.error("Login failed:", error);
       setIsLoading(false);
       setProgress(0);
@@ -105,24 +106,27 @@ function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/projects");
+      navigate("/projects", { replace: true });
     }
-  });
+  }, [isLoggedIn, navigate]);
 
   return (
     <div>
-      {isLoading && <Spinner />}
-      {loginApiError && <p className="error-message">{loginApiError}</p>}
       {isLoading && (
-        <div className={ProgressBarModuleCSS.progressBarContainer}>
-          <div className={ProgressBarModuleCSS.progressBar}>
-            <div
-              className={ProgressBarModuleCSS.progress}
-              style={{ width: `${progress}%` }}
-            ></div>
+        <>
+          <Spinner />
+
+          <div className={ProgressBarModuleCSS.progressBarContainer}>
+            <div className={ProgressBarModuleCSS.progressBar}>
+              <div
+                className={ProgressBarModuleCSS.progress}
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
           </div>
-        </div>
+        </>
       )}
+      {loginApiError && <p className="error-message">{loginApiError}</p>}
       <div className={LoginModuleCSS.loginContainer}>
         <h1>Project Management</h1>
         <form method="post" action="" onSubmit={handleLoginUser}>
