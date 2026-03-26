@@ -5,6 +5,7 @@ import Spinner from "../components/Spinner.tsx";
 
 import useAuth from "../hooks/useAuth.ts";
 import { useNavigate } from "react-router-dom";
+import useXHR from "../hooks/useXHR.ts";
 
 import LoginModuleCSS from "../styles/Login.module.css";
 import InputTextModuleCSS from "../styles/InputText.module.css";
@@ -22,6 +23,7 @@ function Login() {
     password: "changeme",
   });
   const { loginUser, isLoggedIn } = useAuth();
+  const { callApi } = useXHR();
 
   const [errors, setErrors] = useState<formFeildType>({
     email: "",
@@ -76,7 +78,11 @@ function Login() {
         email: formField.email,
         password: formField.password,
       };
-      const response = await loginUserService({ credentials, onProgress });
+      const response = await loginUserService({
+        callApi,
+        credentials,
+        onProgress,
+      });
       const jwttoken = response.access_token;
       if (jwttoken) {
         loginUser(jwttoken);
