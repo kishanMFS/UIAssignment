@@ -1,8 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useReducer } from "react";
 
-import type { projectType } from "../reducers/projectReducers";
-import { projectReducer, getProjects } from "../reducers/projectReducers";
+import useProjects from "../hooks/useProjects";
 
 import ProjectDetailsModuleCSS from "../styles/ProjectDetails.module.css";
 import GlobalModuleCSS from "../styles/Global.module.css";
@@ -10,17 +8,9 @@ import GlobalModuleCSS from "../styles/Global.module.css";
 function ProjectDeatails() {
   const { projectId } = useParams<string>();
   const navigate = useNavigate();
-  const [projects, dispatchProjectReducer] = useReducer(
-    projectReducer,
-    [],
-    getProjects,
-  );
-  const project: projectType =
-    projects.find((p: projectType) => p.id === projectId) || [];
+  const { getProjectByProjectId } = useProjects();
 
-  useEffect(() => {
-    dispatchProjectReducer({ type: "GET_PROJECT" });
-  }, [projectId]);
+  const project = getProjectByProjectId(projectId) || {};
 
   function handleSubmitFiles() {
     navigate(`/projects/${projectId}/files`); // Navigate to the upload page

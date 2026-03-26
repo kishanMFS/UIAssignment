@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import type { projectType } from "../reducers/projectReducers";
-import { projectReducer, getProjects } from "../reducers/projectReducers";
+import useProjects from "../hooks/useProjects";
 import { useErrorContext } from "../context/ErrorContext.tsx";
 
 import ProjectFilesModuleCSS from "../styles/ProjectFiles.module.css";
@@ -21,18 +20,12 @@ function ProjectFiles() {
   const FILE_MAX_SIZE = 1024 * 10; // 10kb
   const { showErrorMessage } = useErrorContext();
 
-  const [projects, dispatchProjectReducer] = useReducer(
-    projectReducer,
-    [],
-    getProjects,
-  );
+  const { getProjectByProjectId, updateProject } = useProjects();
 
   const { projectId } = useParams<string>();
   const [hasFiles, setHasFiles] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const foundProject = projects.find(
-    (project: projectType) => project.id === projectId,
-  );
+  const foundProject = getProjectByProjectId(projectId);
   const [currentProjectFiles, setCurrentProjectFiles] = useState<fileType>(
     foundProject?.projectFiles || [],
   );
@@ -53,14 +46,10 @@ function ProjectFiles() {
     });
   };
 
-  useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
-
   async function handleFileUpload() {
     const newFiles = await Promise.all(
       files
-        .filter((file) => file.size / 1000 <= FILE_MAX_SIZE)
+        .filter((file) => file.size <= FILE_MAX_SIZE)
         .map(async (file) => ({
           name: file.name,
           size: file.size,
@@ -76,8 +65,7 @@ function ProjectFiles() {
       projectFiles: [...existingFiles, ...newFiles],
     };
     setCurrentProjectFiles([...existingFiles, ...newFiles]);
-
-    dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject });
+    updateProject(updatedProject);
 
     showErrorMessage("Files uploaded successfully!");
     setTimeout(() => {
@@ -98,7 +86,8 @@ function ProjectFiles() {
       ...foundProject,
       projectFiles: updatedFiles,
     };
-    dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject });
+    // dispatchProjectReducer({ type: "UPDATE_PROJECT", payload: updatedProject });
+    updateProject(updatedProject);
   }
 
   const handleDrop = (e: React.DragEvent) => {

@@ -1,35 +1,39 @@
 export type projectType = {
-    id: string,
-    projectName: string,
-    description: string,
-    createdDate: string,
-    projectFiles: Array<[]>,
-    projectJobs: Array<[]>
+  id: string;
+  projectName: string;
+  description: string;
+  createdDate: string;
+  projectFiles: Array<[]>;
+  projectJobs: Array<[]>;
 };
 
-type actionType = 
-        { type: "GET_PROJECT" }
-    |   { type: "ADD_PROJECT", payload: projectType }
-    |   { type: "DELETE_PROJECT", payload: string }
-    |   { type: "UPDATE_PROJECT", payload: projectType }
+type actionType =
+  | { type: "ADD_PROJECT"; payload: projectType }
+  | { type: "DELETE_PROJECT"; payload: string }
+  | { type: "UPDATE_PROJECT"; payload: projectType };
 
 export const getProjects = () => {
-    return JSON.parse(localStorage.getItem('projects') || '[]');
-}
+  return JSON.parse(localStorage.getItem("projects") || "[]");
+};
 
-export function projectReducer(currentState: projectType[], action: actionType) {
-    switch (action.type) {
-        case 'GET_PROJECT':
-            return currentState;
-        case 'ADD_PROJECT':
-            return [...currentState, action.payload];
-        case 'DELETE_PROJECT':
-            return currentState.filter((project: projectType) => project.id !== action.payload);
-        case 'UPDATE_PROJECT':
-            return currentState.map((project:projectType) => project.id === action.payload.id ? { ...project, ...action.payload } : project)
-        default:
-            return currentState;
-    }
+export function projectReducer(
+  currentState: projectType[],
+  action: actionType,
+) {
+  switch (action.type) {
+    case "ADD_PROJECT":
+      return [...currentState, action.payload];
+    case "DELETE_PROJECT":
+      return currentState.filter(
+        (project: projectType) => project.id !== action.payload,
+      );
+    case "UPDATE_PROJECT":
+      return currentState.map((project: projectType) =>
+        project.id === action.payload.id
+          ? { ...project, ...action.payload }
+          : project,
+      );
+    default:
+      return currentState;
+  }
 }
-
-// export default projectReducer

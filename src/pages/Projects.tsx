@@ -1,13 +1,11 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal/Modal";
 import InputText from "../components/InputText";
 
 import GlobalModuleCSS from "../styles/Global.module.css";
 import ProjectsModuleCSS from "../styles/Projects.module.css";
-
-import type { projectType } from "../reducers/projectReducers";
-import { projectReducer, getProjects } from "../reducers/projectReducers";
+import useProjects from "../hooks/useProjects";
 
 function Projects() {
   const navigate = useNavigate();
@@ -19,15 +17,7 @@ function Projects() {
     createdDate: new Date().toISOString().split("T")[0],
   });
   const [modalOpen, setModalOpen] = useState(false);
-  const [projects, dispatchProjectReducer] = useReducer(
-    projectReducer,
-    [],
-    getProjects,
-  );
-
-  useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
+  const { projects, addProject, deleteProject } = useProjects();
 
   function handleOpenProject(projectId: string) {
     navigate(`/projects/${projectId}`);
@@ -49,7 +39,7 @@ function Projects() {
   }, [modalOpen]);
 
   function handleDeleteProject(projectId: string) {
-    dispatchProjectReducer({ type: "DELETE_PROJECT", payload: projectId });
+    deleteProject(projectId);
   }
 
   const handleCreateProject = () => {
@@ -57,7 +47,8 @@ function Projects() {
       ...newProject,
       id: Date.now().toString(), // since id is not defined in projectDetails, we can generate a unique id using timestamp
     };
-    dispatchProjectReducer({ type: "ADD_PROJECT", payload: newProjectVlaues });
+
+    addProject(newProjectVlaues);
     setModalOpen(false);
     setNewProject({
       projectName: "",
