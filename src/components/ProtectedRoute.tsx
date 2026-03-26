@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { UserAuth } from "../context/authenticationContext.tsx";
+import useAuth from "../hooks/useAuth.ts";
 import { useErrorContext } from "../context/ErrorContext.tsx";
+import { useNavigate } from "react-router-dom";
 
 type childrenType = {
   children: React.ReactNode;
@@ -9,23 +9,21 @@ type childrenType = {
 
 function ProtectedRoute({ children }: childrenType) {
   const { showErrorMessage } = useErrorContext();
-  const { logout } = UserAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     try {
-      const token = localStorage.getItem("jwtToken");
       const isLoginPage = location.pathname === "/login";
-      if (token) {
+      if (isLoggedIn) {
         if (isLoginPage) navigate("projects", { replace: true });
       } else {
-        logout();
+        return navigate("/login");
       }
-    } catch (e: React.ReactEventHandler) {
+    } catch (e: unknown) {
       showErrorMessage(e.message);
     }
-  }, [location.pathname, logout, navigate, showErrorMessage]);
+  }, [isLoggedIn, navigate, showErrorMessage]);
 
   return children;
 }

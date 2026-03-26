@@ -17,8 +17,8 @@ const renderRoutes = (routes: []) => {
 function App() {
   return (
     <BrowserRouter>
+      {/* for global error handler */}
       <ErrorContextProvider>
-        {/* for global error handler */}
         <UserAuthContextProvider>
           <Routes>
             <Route path="/error" element={<RenderError />} />

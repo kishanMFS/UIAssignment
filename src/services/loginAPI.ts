@@ -3,7 +3,7 @@ interface loginUserType {
   credentials: { email: string; password: string };
   onProgress: (value: number) => void;
 }
-function loginUser({ credentials, onProgress }: loginUserType) {
+function loginUserService({ credentials, onProgress }: loginUserType) {
   // const response = await fetch('https://api.escuelajs.co/api/v1/auth/login', {
   //     method: 'POST',
   //     headers: {
@@ -33,4 +33,4 @@ function loginUser({ credentials, onProgress }: loginUserType) {
   });
 }
 
-export default loginUser;
+export default loginUserService;

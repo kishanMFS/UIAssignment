@@ -130,7 +130,7 @@ function Projects() {
         {projects.length ? (
           <table>
             <thead>
-              <tr align="center">
+              <tr align="left">
                 <th>Project Name</th>
                 <th>Description</th>
                 <th>Files Count</th>

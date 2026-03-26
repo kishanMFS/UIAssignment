@@ -1,12 +1,12 @@
 import { Outlet, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { UserAuth } from "../context/authenticationContext.tsx";
+import useAuth from "../hooks/useAuth.ts";
 import { useErrorContext } from "../context/ErrorContext.tsx";
 import Error from "./Error.tsx";
 import LayoutModuleCSS from "../styles/Layout.module.css";
 
 function NavBar() {
-  const { logout } = UserAuth();
+  const { logoutUser } = useAuth();
   const [currentDateTime, setCurrentDateTime] = useState<string>(
     new Date().toLocaleString(),
   );
@@ -15,7 +15,7 @@ function NavBar() {
   const { errorMessage, closeError } = useErrorContext();
 
   const handleLogout = () => {
-    logout();
+    logoutUser();
   };
 
   useEffect(() => {
