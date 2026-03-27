@@ -84,7 +84,7 @@ function Login() {
         onProgress,
       });
       const jwttoken = response.access_token;
-      if (jwttoken) {
+      if (jwttoken.length) {
         loginUser(jwttoken);
       }
 

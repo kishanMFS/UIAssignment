@@ -18,7 +18,7 @@ function ProtectedRoute({ children }: childrenType) {
       if (isLoggedIn) {
         if (isLoginPage) navigate("projects", { replace: true });
       } else {
-        return navigate("/login");
+        navigate("/login");
       }
     } catch (e: unknown) {
       showErrorMessage(e.message);

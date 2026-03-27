@@ -3,7 +3,7 @@ const loginAPI = process.env.VITE_loginAPI;
 interface callApiType {
   apiURL: string;
   param: object;
-  onProgress: (value: number) => number;
+  onProgress: (value: number) => void;
   resolve: () => JSON;
   reject: () => JSON;
 }
