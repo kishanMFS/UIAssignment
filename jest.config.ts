@@ -1,6 +1,8 @@
 export default {
   testEnvironment: "jsdom",
 
+  setupFiles: ["<rootDir>/jest.env.js"],
+
   // setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 
   transform: {
