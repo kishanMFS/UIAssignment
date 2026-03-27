@@ -124,6 +124,7 @@ function Projects() {
           <button
             className={GlobalModuleCSS.btn}
             onClick={handleOpenCreateProject}
+            aria-label="create new project"
           >
             Create Project
           </button>
