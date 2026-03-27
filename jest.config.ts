@@ -3,7 +3,7 @@ export default {
 
   setupFiles: ["<rootDir>/jest.env.js"],
 
-  // setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
