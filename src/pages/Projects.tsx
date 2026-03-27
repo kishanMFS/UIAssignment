@@ -7,6 +7,8 @@ import GlobalModuleCSS from "../styles/Global.module.css";
 import ProjectsModuleCSS from "../styles/Projects.module.css";
 import useProjects from "../hooks/useProjects";
 
+import type { projectType } from "../types/projects";
+
 function Projects() {
   const navigate = useNavigate();
   const [newProject, setNewProject] = useState({

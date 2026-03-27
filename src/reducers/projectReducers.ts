@@ -1,11 +1,4 @@
-export type projectType = {
-  id: string;
-  projectName: string;
-  description: string;
-  createdDate: string;
-  projectFiles: Array<[]>;
-  projectJobs: Array<[]>;
-};
+import type { projectType } from "../types/projects";
 
 type actionType =
   | { type: "ADD_PROJECT"; payload: projectType }

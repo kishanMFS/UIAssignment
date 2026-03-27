@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 import { projectReducer, getProjects } from "../reducers/projectReducers";
-import type { projectType } from "../reducers/projectReducers";
+import type { projectType } from "../types/projects";
 
 function useProjects() {
   const [projects, dispatchProjectReducer] = useReducer(
