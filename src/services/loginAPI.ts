@@ -1,4 +1,4 @@
-const loginAPI = import.meta.env.VITE_loginAPI;
+const loginAPI = process.env.VITE_loginAPI;
 
 interface callApiType {
   apiURL: string;
