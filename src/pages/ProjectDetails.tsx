@@ -75,6 +75,7 @@ function ProjectDeatails() {
                 className={GlobalModuleCSS.btn}
                 value="Upload Files"
                 onClick={handleSubmitFiles}
+                aria-label={`upload project files for ${project.projectName} `}
               />
             </div>
           </div>
