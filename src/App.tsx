@@ -1,12 +1,13 @@
 // import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./routes/routes.tsx";
+import type { routesType } from "./routes/routes.tsx";
 import { UserAuthContextProvider } from "./context/authenticationContext.tsx";
 import { ErrorContextProvider } from "./context/ErrorContext.tsx";
 import ErrorBoundaryWrapper from "./components/ErrorBoundaryWrapper";
 import RenderError from "./pages/Error.tsx";
 
-const renderRoutes = (routes: []) => {
+const renderRoutes = (routes: routesType[]) => {
   return routes.map((route) => (
     <Route key={route.path} path={route.path} element={route.element}>
       {route.children && renderRoutes(route.children)}
