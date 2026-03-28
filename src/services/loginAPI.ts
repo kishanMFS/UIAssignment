@@ -1,4 +1,5 @@
-const loginAPI: string = process.env.VITE_loginAPI || "";
+// const loginAPI: string = process.env.VITE_loginAPI || "";
+const loginAPI: string = import.meta.env.VITE_loginAPI || "";
 
 type responseType = {
   access_token: string;

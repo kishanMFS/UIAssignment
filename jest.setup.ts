@@ -2,7 +2,7 @@
 // dotenv.config();
 
 // Polyfill import.meta.env for Jest
-(global as NodeJS.Global).import = {
+global.import = {
   meta: {
     env: {
       VITE_loginAPI: process.env.VITE_loginAPI || "http://localhost:3000",
