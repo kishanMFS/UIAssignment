@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useRouteError } from "react-router-dom";
 import GlobalModuleCSS from "../styles/Global.module.css";
-import { isProd } from "../components/helper.ts";
+import { isProd } from "../components/helper";
 
 function RenderError() {
   const location = useLocation();

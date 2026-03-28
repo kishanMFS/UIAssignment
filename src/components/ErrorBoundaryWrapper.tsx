@@ -4,11 +4,11 @@ import GlobalErrorBoundary from "./GlobalErrorBoundary";
 
 interface childrenType {
   children: React.ReactNode;
-  onError: (err: unknown) => void;
+  // onError: (err: unknown) => void;
 }
 const ErrorBoundaryWrapper = ({ children }: childrenType) => {
   const navigate = useNavigate();
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<Error | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -17,13 +17,12 @@ const ErrorBoundaryWrapper = ({ children }: childrenType) => {
         state: { error: error?.message || "Render failed" },
         replace: true,
       });
-      // setError(null)
     }
   }, [error, location.pathname, navigate]);
 
   return (
     <GlobalErrorBoundary
-      onError={(err: unknown) => {
+      onError={(err: Error) => {
         setError(err);
       }}
     >

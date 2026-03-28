@@ -1,8 +1,8 @@
 import { Outlet, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth.ts";
-import { useErrorContext } from "../context/ErrorContext.tsx";
-import Error from "./Error.tsx";
+import useAuth from "../hooks/useAuth";
+import useErrorContext from "../hooks/useError";
+import Error from "./Error";
 import LayoutModuleCSS from "../styles/Layout.module.css";
 
 function NavBar() {

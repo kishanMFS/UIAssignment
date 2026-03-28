@@ -2,18 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import useProjects from "../hooks/useProjects";
-import { useErrorContext } from "../context/ErrorContext.tsx";
+import useErrorContext from "../hooks/useError";
+import type { projectType, fileType } from "../types/projects";
 
 import ProjectFilesModuleCSS from "../styles/ProjectFiles.module.css";
 import GlobalModuleCSS from "../styles/Global.module.css";
-
-interface fileType {
-  name: string;
-  size: number;
-  type: string;
-  fileData: string;
-  uploadedDate: string;
-}
 
 function ProjectFiles() {
   const [files, setFiles] = useState<File[]>([]);
@@ -25,8 +18,9 @@ function ProjectFiles() {
   const { projectId } = useParams<string>();
   const [hasFiles, setHasFiles] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const foundProject = getProjectByProjectId(projectId);
-  const [currentProjectFiles, setCurrentProjectFiles] = useState<fileType>(
+  const foundProject = getProjectByProjectId(projectId || "");
+
+  const [currentProjectFiles, setCurrentProjectFiles] = useState<fileType[]>(
     foundProject?.projectFiles || [],
   );
 
@@ -58,9 +52,9 @@ function ProjectFiles() {
           uploadedDate: new Date().toISOString().split("T")[0],
         })),
     );
-
-    const existingFiles = foundProject.projectFiles || [];
-    const updatedProject = {
+    if (!foundProject) return;
+    const existingFiles: fileType[] = foundProject.projectFiles || [];
+    const updatedProject: projectType = {
       ...foundProject,
       projectFiles: [...existingFiles, ...newFiles],
     };
@@ -78,10 +72,11 @@ function ProjectFiles() {
 
   function handleFileDelete(index: number) {
     const updatedFiles = currentProjectFiles.filter(
-      (file: fileType, i: number) => i !== index,
+      (_, i: number) => i !== index,
     );
     setCurrentProjectFiles(updatedFiles);
-    const updatedProject = {
+    if (!foundProject) return;
+    const updatedProject: projectType = {
       ...foundProject,
       projectFiles: updatedFiles,
     };
@@ -136,7 +131,7 @@ function ProjectFiles() {
                       className={ProjectFilesModuleCSS.dragFilesField}
                       key={index}
                     >
-                      {file.name} )
+                      {file.name}
                     </div>
                   ))}
                   <div className={ProjectFilesModuleCSS.dragArea}>

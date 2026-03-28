@@ -1,9 +1,14 @@
+type responseType = {
+  access_token: string;
+  statusCode: number;
+  message: string;
+};
 interface useXHRType {
   apiURL: string;
-  param: JSON;
+  param: object;
   onProgress: (value: number) => void;
-  resolve: (value: JSON) => void;
-  reject: (value: JSON) => void;
+  resolve: (value: responseType) => void;
+  reject: (value: unknown) => void;
 }
 
 function useXHR() {

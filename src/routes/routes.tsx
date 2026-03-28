@@ -1,16 +1,16 @@
 import { Navigate, createBrowserRouter, Outlet } from "react-router-dom";
 
-import Login from "../pages/Login.tsx";
-import Projects from "../pages/Projects.tsx";
-import ProjectDetails from "../pages/ProjectDetails.tsx";
-import ProjectFiles from "../pages/ProjectFiles.tsx";
-import MissingComponent from "../pages/MissingComponent.tsx";
-import RenderError from "../pages/Error.tsx";
+import Login from "../pages/Login";
+import Projects from "../pages/Projects";
+import ProjectDetails from "../pages/ProjectDetails";
+import ProjectFiles from "../pages/ProjectFiles";
+import MissingComponent from "../pages/MissingComponent";
+import RenderError from "../pages/Error";
 
-import Layout from "../components/Layout.tsx";
-import ProtectedRoute from "../components/ProtectedRoute.tsx";
-import { UserAuthContextProvider } from "../context/authenticationContext.tsx";
-import { ErrorContextProvider } from "../context/ErrorContext.tsx";
+import Layout from "../components/Layout";
+import ProtectedRoute from "../components/ProtectedRoute";
+import { UserAuthContextProvider } from "../context/authenticationContext";
+import { ErrorContextProvider } from "../context/ErrorContext";
 import ErrorBoundaryWrapper from "../components/ErrorBoundaryWrapper";
 
 export interface routesType {

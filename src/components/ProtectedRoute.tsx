@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import useAuth from "../hooks/useAuth.ts";
-import { useErrorContext } from "../context/ErrorContext.tsx";
+import useAuth from "../hooks/useAuth";
+
 import { useNavigate } from "react-router-dom";
 
 type childrenType = {
@@ -8,22 +8,17 @@ type childrenType = {
 };
 
 function ProtectedRoute({ children }: childrenType) {
-  const { showErrorMessage } = useErrorContext();
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const isLoginPage = location.pathname === "/login";
-      if (isLoggedIn) {
-        if (isLoginPage) navigate("projects", { replace: true });
-      } else {
-        navigate("/login");
-      }
-    } catch (e: unknown) {
-      showErrorMessage(e.message);
+    const isLoginPage = location.pathname === "/login";
+    if (isLoggedIn) {
+      if (isLoginPage) navigate("projects", { replace: true });
+    } else {
+      navigate("/login");
     }
-  }, [isLoggedIn, navigate, showErrorMessage]);
+  }, [isLoggedIn, navigate]);
 
   return children;
 }

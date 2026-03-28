@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import InputText from "../components/InputText.tsx";
-import loginUserService from "../services/loginAPI.ts";
-import Spinner from "../components/Spinner.tsx";
+import InputText from "../components/InputText";
+import loginUserService from "../services/loginAPI";
+import Spinner from "../components/Spinner";
 
-import useAuth from "../hooks/useAuth.ts";
+import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import useXHR from "../hooks/useXHR.ts";
+import useXHR from "../hooks/useXHR";
 
 import LoginModuleCSS from "../styles/Login.module.css";
 import InputTextModuleCSS from "../styles/InputText.module.css";
@@ -78,7 +78,12 @@ function Login() {
         email: formField.email,
         password: formField.password,
       };
-      const response = await loginUserService({
+      type responseType = {
+        access_token: string;
+        statusCode: number;
+        message: string;
+      };
+      const response: responseType = await loginUserService({
         callApi,
         credentials,
         onProgress,

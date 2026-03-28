@@ -7,6 +7,8 @@ import GlobalModuleCSS from "../styles/Global.module.css";
 import ProjectsModuleCSS from "../styles/Projects.module.css";
 import useProjects from "../hooks/useProjects";
 
+import useErrorContext from "../hooks/useError";
+
 import type { projectType } from "../types/projects";
 
 function Projects() {
@@ -19,7 +21,9 @@ function Projects() {
     createdDate: new Date().toISOString().split("T")[0],
   });
   const [modalOpen, setModalOpen] = useState(false);
-  const { projects, addProject, deleteProject } = useProjects();
+  const { projects, addProject, deleteProject, getProjectByProjectId } =
+    useProjects();
+  const { showErrorMessage } = useErrorContext();
 
   function handleOpenProject(projectId: string) {
     navigate(`/projects/${projectId}`);
@@ -37,11 +41,16 @@ function Projects() {
   };
 
   useEffect(() => {
-    if (modalOpen) document.querySelector("input[name='projectName']").focus();
+    if (modalOpen)
+      document
+        .querySelector<HTMLInputElement>("input[name='projectName']")
+        ?.focus();
   }, [modalOpen]);
 
   function handleDeleteProject(projectId: string) {
+    const deletedProject: projectType = getProjectByProjectId(projectId)!;
     deleteProject(projectId);
+    showErrorMessage(`${deletedProject.projectName} Project Deleted`);
   }
 
   const handleCreateProject = () => {
@@ -51,6 +60,8 @@ function Projects() {
     };
 
     addProject(newProjectVlaues);
+    showErrorMessage(`${newProject.projectName} Project added`);
+
     setModalOpen(false);
     setNewProject({
       projectName: "",
@@ -133,7 +144,7 @@ function Projects() {
         {projects.length ? (
           <table>
             <thead>
-              <tr align="left">
+              <tr className={GlobalModuleCSS.textLeft}>
                 <th>Project Name</th>
                 <th>Description</th>
                 <th>Files Count</th>
@@ -144,7 +155,7 @@ function Projects() {
             </thead>
             <tbody>
               {projects.map((project: projectType, index: number) => (
-                <tr align="left" key={index}>
+                <tr className={GlobalModuleCSS.textLeft} key={index}>
                   <td className={ProjectsModuleCSS.tableCell}>
                     {project.projectName}
                   </td>
