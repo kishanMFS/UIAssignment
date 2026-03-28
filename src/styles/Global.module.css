@@ -31,7 +31,9 @@ input[type="file"] {
 }
 
 
-
+.textLeft {
+    text-align: left;
+}
 
 .btn:disabled{
     cursor: not-allowed;

@@ -10,7 +10,7 @@ function ProjectDeatails() {
   const navigate = useNavigate();
   const { getProjectByProjectId } = useProjects();
 
-  const project = getProjectByProjectId(projectId) || {};
+  const project = getProjectByProjectId(projectId || "");
 
   function handleSubmitFiles() {
     navigate(`/projects/${projectId}/files`); // Navigate to the upload page

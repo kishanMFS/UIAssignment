@@ -2,12 +2,12 @@ import React from "react";
 
 type propsType = {
   children: React.ReactNode;
-  onError?: (error: unknown) => void;
+  onError?: (error: Error) => void;
 };
 
 type stateType = {
   hasError: boolean;
-  error: unknown;
+  error: Error | null;
 };
 
 class GlobalErrorBoundary extends React.Component<propsType, stateType> {
@@ -20,10 +20,12 @@ class GlobalErrorBoundary extends React.Component<propsType, stateType> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: unknown) {
+  componentDidCatch(error: Error) {
     if (window.location.pathname === "/error") return;
     setTimeout(() => {
-      this.props.onError(error);
+      if (this.props.onError) {
+        this.props.onError(error);
+      }
     }, 0);
   }
 

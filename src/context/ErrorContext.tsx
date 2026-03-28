@@ -1,34 +1,31 @@
+import React, { createContext, useState } from "react";
 
-import React, { createContext, useContext, useState } from "react"
-
-type ErrorContextType =
-    {
-        errorMessage: string | null,
-        showErrorMessage: (msg: string) => void,
-        closeError: () => void
-    }
-    | null
+type ErrorContextType = {
+  errorMessage: string;
+  showErrorMessage: (msg: string) => void;
+  closeError: () => void;
+};
+// | null
 
 type childrenType = {
-    children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-const ErrorContext = createContext<ErrorContextType>(null)
+const ErrorContext = createContext<ErrorContextType>({} as ErrorContextType);
 
-export const ErrorContextProvider = ({children}: childrenType) => {
-    const [ errorMessage, setErrorMessage ] = useState<string | null>(null)
+export const ErrorContextProvider = ({ children }: childrenType) => {
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const showErrorMessage = (msg: string) => setErrorMessage(msg)
-    const closeError = () => setErrorMessage(null)
+  const showErrorMessage = (msg: string) => setErrorMessage(msg);
+  const closeError = () => setErrorMessage("");
 
-    return (
-        <ErrorContext.Provider value={{ errorMessage, showErrorMessage, closeError }}>
-            {children}
-        </ErrorContext.Provider>
-    )
+  return (
+    <ErrorContext.Provider
+      value={{ errorMessage, showErrorMessage, closeError }}
+    >
+      {children}
+    </ErrorContext.Provider>
+  );
+};
 
-}
-
-export const useErrorContext = () => {
-    return useContext(ErrorContext)
-}
+export { ErrorContext };
