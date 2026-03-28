@@ -127,27 +127,23 @@ function Login() {
         <h1>Project Management</h1>
         <form method="post" action="" onSubmit={handleLoginUser}>
           <div className={InputTextModuleCSS.inputField}>
-            <label htmlFor="email">
-              Email:
-              <InputText
-                inputName="email"
-                inputValue={formField.email}
-                onInputChange={handleInputChange}
-                errorMessage={errors.email}
-              />
-            </label>
+            <label htmlFor="email">Email</label>
+            <InputText
+              inputName="email"
+              inputValue={formField.email}
+              onInputChange={handleInputChange}
+              errorMessage={errors.email}
+            />
           </div>
 
           <div className={InputTextModuleCSS.inputField}>
-            <label htmlFor="password">
-              Password:
-              <InputText
-                inputName="password"
-                inputValue={formField.password}
-                onInputChange={handleInputChange}
-                errorMessage={errors.password}
-              />
-            </label>
+            <label htmlFor="password">Password</label>
+            <InputText
+              inputName="password"
+              inputValue={formField.password}
+              onInputChange={handleInputChange}
+              errorMessage={errors.password}
+            />
           </div>
           <div className={LoginModuleCSS.loginBtn}>
             <button type="submit" className={GlobalModuleCSS.btn}>
