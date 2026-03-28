@@ -20,7 +20,7 @@ function ProtectedRoute({ children }: childrenType) {
     }
   }, [isLoggedIn, navigate]);
 
-  return children;
+  return isLoggedIn ? children : null;
 }
 
 export default ProtectedRoute;
